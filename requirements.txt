@@ -1,0 +1,8 @@
+# Dependencies
+turtle
+# No external dependencies required - uses only Python standard library
+
+# Development dependencies (optional)
+# pytest>=6.0.0  # For testing
+# black>=21.0.0  # For code formatting
+# flake8>=3.8.0  # For linting

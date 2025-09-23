@@ -11,7 +11,7 @@ from typing import Optional
 import environement as env
 import elements as elm
 import view as render
-import levels
+import Asset.levels as levels
 from utils import choose_random_position
 from elements import BLINK_COUNTER, BLINK_SPEED
 from rules import GameChart

@@ -1,0 +1,58 @@
+# client.py - Environment 2
+import socket
+import json
+import time
+
+class GameClient:
+    def __init__(self, host='localhost', port=12345):
+        self.host = host
+        self.port = port
+        self.socket = None
+        
+    def connect(self):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((self.host, self.port))
+        print(f"🔗 Connected to server {self.host}:{self.port}")
+    
+    def send_action(self, action_type, data):
+        """Invia azione al server di gioco"""
+        message = {
+            'type': action_type,
+            'data': data,
+            'timestamp': time.time()
+        }
+        
+        # Invia messaggio
+        self.socket.send(json.dumps(message).encode('utf-8'))
+        
+        # Ricevi risposta
+        response = self.socket.recv(1024).decode('utf-8')
+        return json.loads(response)
+    
+    def move_player(self, x, y):
+        """Muovi player nel gioco"""
+        return self.send_action('move_player', {'x': x, 'y': y})
+    
+    def get_game_state(self):
+        """Ottieni stato del gioco"""
+        return self.send_action('get_game_state', {})
+    
+    def close(self):
+        if self.socket:
+            self.socket.close()
+
+# Esempio di utilizzo
+if __name__ == "__main__":
+    client = GameClient()
+    client.connect()
+    
+    try:
+        # Test comunicazione
+        result = client.move_player(100, 100)
+        print(f"Move result: {result}")
+        
+        state = client.get_game_state()
+        print(f"Game state: {state}")
+        
+    finally:
+        client.close()

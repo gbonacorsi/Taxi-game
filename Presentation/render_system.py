@@ -1,10 +1,5 @@
 import os, sys
-
-current_dir = os.path.dirname(os.path.abspath(__name__))
-sys.path.append(os.path.join(current_dir, "\Taxi game", "\Entities"))
-
-import turtle
-from maze_entities import Maze, Shelf, Player, Client, Destination, Wall
+from Entities.maze_entities import Maze, Shelf, Player, Client, Destination, Wall
 
 class Display_game:
     
