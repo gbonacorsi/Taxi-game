@@ -1,8 +1,17 @@
 """
 Game Constants and Configuration
-
-Central location for all game constants and configuration values.
 """
+
+MAP_INDEX = 0
+PLAYERS_NUMBER = 2      # when render activated, max 5 players
+CLIENTS_NUMBER = 3     
+RENDER_TURTLE = True
+LANGUAGE = "en"
+
+# Game setup
+REWARD_CORRECT_DROP = 120
+MALUS_TRAVEL = -1
+MALUS_WRONG_DROP = -20
 
 # Screen Configuration
 SCREEN_WIDTH = 800
