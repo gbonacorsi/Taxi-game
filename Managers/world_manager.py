@@ -8,21 +8,20 @@ from Components.subject import *
 from random import randint
 
 class World:
-    def __init__(self, 
-                 matrix: list[list[FieldRecord]]|None = None,
-                 players: list[Player]|None = None,
-                 clients: list[Client]|None = None,
-                 destinations: list[Destination]|None = None,
-                 walls: list[Wall]|None = None,
-                 shelves: list[Shelf]|None = None) -> None:
+    def __init__(self) -> None:
         
         self.map = maps[MAP_INDEX]
-        self.matrix = players,
-        self.players=players,
-        self.clients=clients
-        self.destinations=destinations,
-        self.walls=walls,
-        self.shelves=shelves
+        self.matrix = []
+        self.players=[]
+        self.clients=[]
+        self.destinations=[]
+        self.walls=[]
+        self.shelves=[]
+        self.players_id = 1
+        self.clients_id = 1
+        self.destinations_id = 1
+        self.walls_id = 1
+        self.shelves_id = 1
 
     def choose_random_position() -> tuple[float, float]:
 
@@ -48,13 +47,40 @@ class World:
 
         return is_found
 
+    def generate_random_components(self, id:int, number: int, component_type: entity_type) -> None:
+
+        for i in range(number-1):
+            
+            position = self.choose_random_position()
+            while self.is_empty(position) == False:
+                position = self.choose_random_position()
+            
+            if component_type == entity_type.player:
+                new_player = Player(position[0], position[1])
+                record=FieldRecord(id, entity_type.player, new_player, (position[0], position[1]))
+                self.players.append(new_player)
+                self.matrix[position[1]][position[0]] = [record]
+                self.maps[position[1]][position[0]] = "P",
+
+            elif component_type == entity_type.client:
+                new_client = Client(position[0], position[1])
+                record=FieldRecord(id, entity_type.client, new_client, (position[0], position[1]))
+                self.clients.append(new_client)
+                self.matrix[position[1]][position[0]] = [record]
+                self.maps[position[1]][position[0]] = "C"
+            
+            while self.contain_type(position, entity_type.shelf) == False:   
+                position = self.choose_random_position()
+            if component_type == entity_type.destination:
+                new_destination = Destination(position[0], position[1])
+                record=FieldRecord(id, entity_type.destination, new_destination, (position[0], position[1]))
+                self.destinations.append(new_destination)
+                self.matrix[position[1]][position[0]] = [record]
+                self.maps[position[1]][position[0]] = "X"
+                    
+            id += 1
+
     def generate_new_world(self) -> None:
-        
-        players_id = 1
-        clients_id = 1
-        destinations_id = 1
-        walls_id = 1
-        shelves_id = 1
 
         y_range= len(self.map)
         x_range= len(self.map[0])
@@ -80,41 +106,14 @@ class World:
                         self.walls.append(wall)
                         walls_id += 1
                                         
-                    elif character == "X":
-                        destination = Destination(x,y)
-                        record=FieldRecord(destinations_id, entity_type.destination, destination, (x,y))
-                        row.append([record])
-                        self.destinations.append(destination)
-                        destinations_id += 1
-                    
                     else:
                         row.append([])
             
             self.matrix.append(row)
-                        
-            for new_client in CLIENTS_NUMBER:
-                
-                position = self.choose_random_position()
-                while self.is_empty(position) == False:
-                    position = self.choose_random_position()
-                new_client = Client(position[0], position[1])
-                
-                record=FieldRecord(clients_id, entity_type.client, new_client, (position[0], position[1]))
-                self.clients.append(new_client)
-                self.matrix[position[1]][position[0]] = [record]
-                clients_id += 1
-                
             
-            for new_player in PLAYERS_NUMBER:
-                
-                position = self.choose_random_position()
-                while self.is_empty(position) == False:
-                    position = self.choose_random_position()
-                new_player = Player(position[0], position[1])
-                self.players.append([(position[0], position[1]), new_player])
-
-                record=FieldRecord(players_id, entity_type.player, new_player, (position[0], position[1]))
-                self.matrix[position[1]][position[0]] = [record]
+            self.generate_random_components(self.clients_id, CLIENTS_NUMBER, entity_type.client)
+            self.generate_random_components(self.players_id, PLAYERS_NUMBER, entity_type.player)
+            self.generate_random_components(self.destinations_id, PLAYERS_NUMBER, entity_type.destination)
 
     def add_component(self, new_coordinate: tuple[float, float], field: FieldRecord) -> None:
 
@@ -125,3 +124,44 @@ class World:
 
         if self.matrix is not None:
             self.matrix[old_coordinate[1]][old_coordinate[0]].remove(field)
+
+    def return_field_from_coordinate(self, coordinate: tuple[float, float], component_type: entity_type, in_matrix: bool = True) -> FieldRecord | None:
+
+        if in_matrix:
+            if self.matrix is not None:
+                coordinates_value = self.matrix[coordinate[1]][coordinate[0]]
+                
+                for field in coordinates_value:
+                    if field.type in component_type.value and field.position == coordinate:
+                        return field
+        else:
+            if component_type == entity_type.player:
+            
+                for field in self.players:
+                    if field.position == coordinate:
+                        return field
+
+            if component_type == entity_type.client:
+            
+                for field in self.clients:
+                    if field.position == coordinate:
+                        return field
+
+            if component_type == entity_type.destination:
+            
+                for field in self.destinations:
+                    if field.position == coordinate:
+                        return field
+
+            if component_type == entity_type.wall:
+            
+                for field in self.walls:
+                    if field.position == coordinate:
+                        return field
+
+            if component_type == entity_type.shelf:
+            
+                for field in self.shelves:
+                    if field.position == coordinate:
+                        return field
+        return None

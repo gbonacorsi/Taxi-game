@@ -1,4 +1,4 @@
-from Configuration.setup import RENDER_TURTLE, LANGUAGE
+from Configuration.setup import RENDER, RENDER_ENGINE
 from Asset.labels import LABELS
 from Managers.world_manager import World
 
@@ -12,13 +12,9 @@ class Engine:
         world = World()
         self.matrix = world.generate_new_world()
 
-    def run(self):
-        """Main game loop"""
-        while RENDER_TURTLE:
+    def run(self, RENDER):
+        while RENDER_ENGINE == "Turtle":
             if self.game_screen:
                 self.game_screen.render()
             
-            # Aggiorna logica di gioco
-            if self.game_controller:
-                self.game_controller.update_game()
 
