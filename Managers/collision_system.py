@@ -1,10 +1,7 @@
-from Managers.world_manager import World
-from main import simulation
-from Configuration.data_structure import entity_type
 
-matrix=simulation.matrix
+from Configuration.data_structure import *
 
-def is_collision(new_coordinate: tuple[float, float], matrix: list | None = matrix) -> bool:
+def is_collision(new_coordinate: tuple[float, float], matrix: list | None) -> bool:
     
     collision = False
     

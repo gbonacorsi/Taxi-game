@@ -1,8 +1,5 @@
-from data_structure import lang
-
-"""
-Game Constants and Configuration
-"""
+# Import reale perché usiamo lang a runtime
+from Configuration.data_structure import lang
 
 # GAME SETTINGS
 MAP_INDEX = 0
@@ -12,7 +9,7 @@ RENDERING = True
 RENDER_ENGINE = "Turtle"  # Options: "Turtle"
 
 # LABEL LANGUAGE
-LANGUAGE = lang.eng
+LANGUAGE = lang.ENG.value
 
 # Scoring
 REWARD_CORRECT_DROP = 120

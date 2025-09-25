@@ -1,8 +1,7 @@
+from enum import Enum
 from Components.objects import *
 from Components.subject import *
 from Components.maze_components import *
-from Presentation.Turtle.render_system import PlayerDisplay, ClientDisplay, DestinationDisplay, WallDisplay, ShelfDisplay
-from enum import Enum
 
 class entity_type(Enum):
     player = "player"
@@ -11,22 +10,8 @@ class entity_type(Enum):
     wall = "wall"
     shelf = "shelf"
 
-class displays(Enum):
-    Player = PlayerDisplay
-    Client = ClientDisplay
-    Destination = DestinationDisplay
-    Wall = WallDisplay
-    Shelf = ShelfDisplay
-
-class components(Enum):
-    Player = Player
-    Client = Client
-    Destination = Destination
-    Wall = Wall
-    Shelf = Shelf
-
 class lang(Enum):
-    eng = "English"
+    ENG = "English"
     
 class actions(Enum):
     up = "up"
@@ -35,6 +20,13 @@ class actions(Enum):
     right = "right"
     pick = "pick"
     drop = "drop"
+    
+class components(Enum):
+    Player = Player
+    Client = Client
+    Destination = Destination
+    Wall = Wall
+    Shelf = Shelf
 
 class FieldRecord:
     def __init__(self, id: int, type: entity_type, instance: components, position: tuple[int, int], grid_id: int | None = None) -> None:
@@ -59,7 +51,7 @@ class FieldRecord:
                 setattr(self, key, value)
 
 class FieldDisplay:
-    def __init__(self, id: int, type: entity_type, instance: displays, position: tuple[int, int]) -> None:
+    def __init__(self, id: int, type: entity_type, instance: object, position: tuple[int, int]) -> None:
         self.id = id
         self.type = type
         self.instance = instance

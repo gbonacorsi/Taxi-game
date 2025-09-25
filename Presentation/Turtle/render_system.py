@@ -1,7 +1,8 @@
 import turtle
-from Configuration.setup import *
-from Configuration.data_structure import *
+from enum import Enum
 from Managers.world_manager import World
+from Configuration.data_structure import actions, entity_type
+from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF
 
 def action(action: actions, display_entity: object | None = None) -> actions | None:
     if action == actions.up:
@@ -204,3 +205,11 @@ class Display_game:
                         return field
                     
             return None
+
+# Enum DOPO le classi così sono già definite!
+class displays(Enum):
+    Player = PlayerDisplay
+    Client = ClientDisplay
+    Destination = DestinationDisplay
+    Wall = WallDisplay
+    Shelf = ShelfDisplay

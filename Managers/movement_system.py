@@ -1,7 +1,7 @@
+
 from Configuration.data_structure import *
-from Managers.collision_system import is_valide_movement
 from Managers.world_manager import World
-from main import simulation
+from Managers.collision_system import is_valide_movement
 
 def move(world: World | None = None,field: FieldRecord | None = None, 
          new_coor: tuple[float, float] | None = None, current_position: tuple[float, float] | None = None) -> None:

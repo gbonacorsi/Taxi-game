@@ -1,11 +1,11 @@
-from Asset.levels import maps
-from Configuration.setup import MAP_INDEX, CLIENTS_NUMBER, PLAYERS_NUMBER
+from random import randint
+
+from Configuration.setup import *
 from Configuration.data_structure import *
 from Components.maze_components import *
 from Components.objects import *
 from Components.subject import *
-
-from random import randint
+from Asset.levels import maps
 
 class World:
     def __init__(self) -> None:
@@ -23,7 +23,7 @@ class World:
         self.walls_id = 1
         self.shelves_id = 1
 
-    def choose_random_position() -> tuple[float, float]:
+    def choose_random_position(self) -> tuple[float, float]:
 
         map_id=MAP_INDEX
         y = randint(0, len(maps[map_id]) - 1)
@@ -94,27 +94,27 @@ class World:
                     character = self.map[y][x]
                     
                     if character == "#":
-                        shelf = Shelf(shelves_id, x, y)
-                        record=FieldRecord(shelves_id, entity_type.shelf, shelf, (x,y))
+                        shelf = Shelf(self.shelves_id, x, y)
+                        record=FieldRecord(self.shelves_id, entity_type.shelf, shelf, (x,y))
                         row.append([record])
                         self.shelves.append(shelf)
-                        shelves_id += 1
+                        self.shelves_id += 1
                         
                     elif character == "!":
-                        wall = Wall(walls_id, x, y)
-                        record=FieldRecord(walls_id, entity_type.wall, wall, (x,y))
+                        wall = Wall(self.walls_id, x, y)
+                        record=FieldRecord(self.walls_id, entity_type.wall, wall, (x,y))
                         row.append([record])
                         self.walls.append(wall)
-                        walls_id += 1
+                        self.walls_id += 1
                                         
                     else:
                         row.append([])
             
             self.matrix.append(row)
             
-            self.generate_random_components(self.clients_id, CLIENTS_NUMBER, entity_type.client)
-            self.generate_random_components(self.players_id, PLAYERS_NUMBER, entity_type.player)
-            self.generate_random_components(self.destinations_id, PLAYERS_NUMBER, entity_type.destination)
+        self.generate_random_components(self.clients_id, CLIENTS_NUMBER, entity_type.client)
+        self.generate_random_components(self.players_id, PLAYERS_NUMBER, entity_type.player)
+        self.generate_random_components(self.destinations_id, PLAYERS_NUMBER, entity_type.destination)
 
     def add_component(self, new_coordinate: tuple[float, float], field: FieldRecord) -> None:
 

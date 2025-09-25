@@ -1,9 +1,12 @@
 import turtle
+
+from Configuration.setup import *
+
+from Presentation.Turtle.ui_system import TextDisplay, ScoreDisplay, DistanceDisplay
+from Presentation.Turtle.render_system import Display_game
+
 from Asset.levels import maps
 from Asset.labels import LABELS
-from Configuration.setup import *
-from ui_system import TextDisplay, ScoreDisplay, DistanceDisplay
-from render_system import Display_game
 
 class Screen:
     
@@ -24,7 +27,7 @@ class Screen:
         wn.title(self.label["title"])
         wn.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
         
-    def render(self, map = maps[MAP_INDEX]) -> None:
+    def render(self) -> None:
         self.title.display_text(TITLE["X"], TITLE["Y"], self.label["title"])
         self.controls.display_text(CONTROL["X"], CONTROL["Y"], self.label["controls"])
         self.elements.display_text(ELEMENT["X"], ELEMENT["Y"], self.label["elements"])

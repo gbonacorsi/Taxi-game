@@ -1,12 +1,13 @@
+
 from Presentation.Turtle.display_system import Screen
 from Managers.world_manager import World
-from Configuration.setup import *
+from Configuration.setup import RENDER_ENGINE, RENDERING
 
 class loop:
 
     def __init__ (self, world: World, screen : Screen | None = None, is_level_completed: bool = False, close_game: bool = False) -> None:
         self.world = world
-        self.screen = screen if RENDER_ENGINE.value == "turtle" and RENDERING == True else None
+        self.screen = screen if RENDER_ENGINE == "Turtle" and RENDERING == True else None
         self.is_level_completed = is_level_completed
         self.close_game = close_game
 

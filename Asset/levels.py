@@ -1,7 +1,3 @@
-"""
-Game map's levels
-"""
-
 maps=[]
 
 level1 = [

@@ -1,3 +1,4 @@
+
 from Configuration.setup import REWARD_CORRECT_DROP, MALUS_TRAVEL,MALUS_WRONG_DROP
 
 class ScoringSystem:

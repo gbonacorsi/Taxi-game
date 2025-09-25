@@ -1,11 +1,13 @@
-from Configuration.data_structure import actions
-from Configuration.setup import RENDERING, RENDER_ENGINE
-from Configuration.data_structure import FieldRecord
-from Components.subject import Player
-from Managers.movement_system import Movement2D
-from Presentation.Turtle.display_system import Screen
+import Core.dependencies
+
+
+from Configuration.setup import *
+from Configuration.data_structure import *
+from Asset.levels import *
 from Managers.world_manager import World
-from loop import loop
+from Managers.movement_system import Movement2D
+from Core.loop import loop
+from Presentation.Turtle.display_system import Screen
 from Systems.Input_management import KeyBoard
 
 class Engine:
@@ -23,7 +25,7 @@ class Engine:
         if RENDERING==True and RENDER_ENGINE == "Turtle":
             game_screen = Screen()
             game_screen.initialize()
-            game_screen.render()
+            game_screen.render(maps[MAP_INDEX])            
             keyboard_listener = KeyBoard(self.world)
             keyboard_listener.run()
             

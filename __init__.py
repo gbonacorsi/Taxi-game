@@ -1,0 +1,1 @@
+print("Taxi game initialized")

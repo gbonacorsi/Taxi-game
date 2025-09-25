@@ -1,7 +1,3 @@
-"""
-Game Labels and Texts based on language
-"""
-
 LABELS={"English": {
     "title": "Taxi Game",
     "controls": "Controls: press w to go Up, s to go Down, a to go Left, d to go Right, e to Pick, q to Drop",

@@ -1,13 +1,10 @@
 import turtle
-from Components.objects import Player
-from Managers.movement_system import Movement
-from main import simulation
 from Configuration.data_structure import actions
-
+from Managers.world_manager import World
 
 class KeyBoard:
     
-    def __init__(self, players: list,):
+    def __init__(self, players: list, simulation: World) -> None:
         self.player = None
         self.player_index = 0
         self.players = players
