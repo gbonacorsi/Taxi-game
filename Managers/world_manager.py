@@ -56,29 +56,30 @@ class World:
                 position = self.choose_random_position()
             
             if component_type == entity_type.player:
-                new_player = Player(position[0], position[1])
-                record=FieldRecord(id, entity_type.player, new_player, (position[0], position[1]))
+                new_player = Player(self.players_id, position[0], position[1])
+                record=FieldRecord(self.players_id, entity_type.player, new_player, (position[0], position[1]))
                 self.players.append(new_player)
                 self.matrix[position[1]][position[0]] = [record]
                 self.maps[position[1]][position[0]] = "P",
+                self.players_id += 1
 
             elif component_type == entity_type.client:
-                new_client = Client(position[0], position[1])
-                record=FieldRecord(id, entity_type.client, new_client, (position[0], position[1]))
+                new_client = Client(self.clients_id, position[0], position[1])
+                record=FieldRecord(self.clients_id, entity_type.client, new_client, (position[0], position[1]))
                 self.clients.append(new_client)
                 self.matrix[position[1]][position[0]] = [record]
                 self.maps[position[1]][position[0]] = "C"
+                self.clients_id += 1
             
             while self.contain_type(position, entity_type.shelf) == False:   
                 position = self.choose_random_position()
             if component_type == entity_type.destination:
-                new_destination = Destination(position[0], position[1])
-                record=FieldRecord(id, entity_type.destination, new_destination, (position[0], position[1]))
+                new_destination = Destination(self.destinations_id, position[0], position[1])
+                record=FieldRecord(self.destinations_id, entity_type.destination, new_destination, (position[0], position[1]))
                 self.destinations.append(new_destination)
                 self.matrix[position[1]][position[0]] = [record]
                 self.maps[position[1]][position[0]] = "X"
-                    
-            id += 1
+                self.destinations_id += 1
 
     def generate_new_world(self) -> None:
 
@@ -93,14 +94,14 @@ class World:
                     character = self.map[y][x]
                     
                     if character == "#":
-                        shelf = Shelf(x,y)
+                        shelf = Shelf(shelves_id, x, y)
                         record=FieldRecord(shelves_id, entity_type.shelf, shelf, (x,y))
                         row.append([record])
                         self.shelves.append(shelf)
                         shelves_id += 1
                         
                     elif character == "!":
-                        wall = Wall(x,y)
+                        wall = Wall(walls_id, x, y)
                         record=FieldRecord(walls_id, entity_type.wall, wall, (x,y))
                         row.append([record])
                         self.walls.append(wall)
@@ -165,3 +166,19 @@ class World:
                     if field.position == coordinate:
                         return field
         return None
+
+    def reset(self) -> None:
+
+        self.map = maps[MAP_INDEX]
+        self.matrix = []
+        self.players=[]
+        self.clients=[]
+        self.destinations=[]
+        self.walls=[]
+        self.shelves=[]
+        self.players_id = 1
+        self.clients_id = 1
+        self.destinations_id = 1
+        self.walls_id = 1
+        self.shelves_id = 1
+        self.generate_new_world()

@@ -8,7 +8,7 @@ Game Constants and Configuration
 MAP_INDEX = 0
 PLAYERS_NUMBER = 2      # when RENDER_TURTLE = True -> max 5 players
 CLIENTS_NUMBER = 3     
-RENDER = True
+RENDERING = True
 RENDER_ENGINE = "Turtle"  # Options: "Turtle"
 
 # LABEL LANGUAGE

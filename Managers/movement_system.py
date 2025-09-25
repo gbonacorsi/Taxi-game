@@ -7,6 +7,8 @@ def move(world: World | None = None,field: FieldRecord | None = None,
          new_coor: tuple[float, float] | None = None, current_position: tuple[float, float] | None = None) -> None:
     
     if is_valide_movement(new_coor) == False:
+        world.return_field_from_coordinate(current_position, field.get_value()["type"], in_matrix=False).instance.set_position(new_coor)
+        
         field.instance.set_position(new_coor)
         world.remove_component(current_position, field)
         world.add_component(new_coor, field)

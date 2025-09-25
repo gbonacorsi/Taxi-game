@@ -18,3 +18,6 @@ class ScoringSystem:
         
     def get_score(self) -> int:
         return self.score
+    
+    def reset_score(self) -> None:
+        self.score = 0

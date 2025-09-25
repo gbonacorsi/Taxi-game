@@ -7,15 +7,19 @@ def action(action: actions, display_entity: object | None = None) -> actions | N
     if action == actions.up:
         display_entity.sety(display_entity.ycor() + SPACE_BETWEEN_CELLS)
         display_entity.y += 1
+        display_entity.goto(display_entity.x, display_entity.y)
     elif action == actions.down:
         display_entity.sety(display_entity.ycor() - SPACE_BETWEEN_CELLS)
         display_entity.y -= 1
+        display_entity.goto(display_entity.x, display_entity.y)
     elif action == actions.left:
         display_entity.setx(display_entity.xcor() - SPACE_BETWEEN_CELLS)
         display_entity.x -= 1
+        display_entity.goto(display_entity.x, display_entity.y)
     elif action == actions.right:
         display_entity.setx(display_entity.xcor() + SPACE_BETWEEN_CELLS)
         display_entity.x += 1
+        display_entity.goto(display_entity.x, display_entity.y)
         
         return action
 
@@ -24,11 +28,9 @@ def update_field_matrix(matrix: World, position: tuple[int, int], new_values: di
     field_matrix.update_values(new_values)
 
 class DestinationDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, x:float, y:float, destination_parameters: dict = {"shape": DESTINATION["SHAPE"], "color": DESTINATION["COLOR"], "speed": DESTINATION["SPEED"]}) -> None:
+    def __init__(self, grid_id: int, destination_parameters: dict = {"shape": DESTINATION["SHAPE"], "color": DESTINATION["COLOR"], "speed": DESTINATION["SPEED"]}) -> None:
         super().__init__()
         self.grid_id = grid_id
-        self.x=x,
-        self.y=y,
         self.shape(destination_parameters["shape"])
         self.color(destination_parameters["color"])
         self.penup()
@@ -38,11 +40,9 @@ class DestinationDisplay(turtle.Turtle):
             action(action, self)
 
 class ClientDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, x:float, y:float, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"], "blink_state": None, "blink_colors": None}) -> None:
+    def __init__(self, grid_id: int, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"], "blink_state": None, "blink_colors": None}) -> None:
         super().__init__()
         self.grid_id = grid_id
-        self.x=x,
-        self.y=y,
         self.shape(client_parameters["shape"])
         self.color(client_parameters["color"])
         self.penup()
@@ -54,11 +54,9 @@ class ClientDisplay(turtle.Turtle):
             action(action, self)
 
 class PlayerDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, x:float, y:float, player_parameters: dict = {"shape": PLAYER["SHAPE"], "color": PLAYER["COLOR"], "speed": PLAYER["SPEED"]}) -> None:
+    def __init__(self, grid_id: int, player_parameters: dict = {"shape": PLAYER["SHAPE"], "color": PLAYER["COLOR"], "speed": PLAYER["SPEED"]}) -> None:
         super().__init__()
         self.grid_id = grid_id
-        self.x=x,
-        self.y=y,
         self.shape(player_parameters["shape"])
         self.color(player_parameters["color"])
         self.penup()
@@ -71,8 +69,6 @@ class WallDisplay(turtle.Turtle):
     def __init__(self, grid_id: int, wall_parameters: dict = {"shape": WALL["SHAPE"], "color": WALL["COLOR"], "speed": WALL["SPEED"]}) -> None:
         super().__init__()
         self.grid_id = grid_id
-        self.x=0,
-        self.y=0,
         self.shape(wall_parameters["shape"])
         self.color(wall_parameters["color"])
         self.penup()
@@ -82,11 +78,9 @@ class WallDisplay(turtle.Turtle):
             action(action, self)
 
 class ShelfDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, x:float = 0, y:float = 0, shelf_parameters: dict = {"shape": SHELF["SHAPE"], "color": SHELF["COLOR"], "speed": SHELF["SPEED"]}) -> None:
+    def __init__(self, grid_id: int, shelf_parameters: dict = {"shape": SHELF["SHAPE"], "color": SHELF["COLOR"], "speed": SHELF["SPEED"]}) -> None:
         super().__init__()
         self.grid_id = grid_id
-        self.x=x,
-        self.y=y,
         self.shape(shelf_parameters["shape"])
         self.color(shelf_parameters["color"])
         self.penup()

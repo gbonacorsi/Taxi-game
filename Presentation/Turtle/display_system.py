@@ -39,3 +39,16 @@ class Screen:
 
     def update_distance(self, distance_client: int, distance_destination: int) -> None:
         self.distance_display.update_distance(distance_client, distance_destination)
+    
+    def update(self) -> None:
+        turtle.update()
+    
+    def reset(self) -> None:
+        self.title.clear()
+        self.controls.clear()
+        self.elements.clear()
+        self.mission.clear()
+        self.score_display.clear()
+        self.distance_display.clear()
+        self.display_game.clear()        
+        self.render(maps[MAP_INDEX])

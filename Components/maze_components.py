@@ -1,10 +1,10 @@
 from Entities.maze_structure import *
 
 class Wall(WallEntity):
-    def __init__(self, x: float = 0, y: float = 0):
+    def __init__(self, entity_id:int, x: float = 0, y: float = 0):
+        super().__init__(entity_id=entity_id)
         self.x = x
         self.y = y
-        super().__init__()
     
     def set_position(self, x: float, y: float):
         self.x = x
@@ -15,10 +15,10 @@ class Wall(WallEntity):
         return (self.x, self.y)
 
 class Shelf(ShelfEntity):
-    def __init__(self, x: float = 0, y: float = 0):
+    def __init__(self, entity_id:int, x: float = 0, y: float = 0):
+        super().__init__(entity_id=entity_id)
         self.x = x
         self.y = y
-        super().__init__()
 
     def set_position(self, x: float, y: float):
         self.x = x
