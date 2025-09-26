@@ -51,11 +51,12 @@ class FieldRecord:
                 setattr(self, key, value)
 
 class FieldDisplay:
-    def __init__(self, id: int, type: entity_type, instance: object, position: tuple[int, int]) -> None:
+    def __init__(self, id: int, type: entity_type, instance: object, position: tuple[int, int], blink_state: bool = False) -> None:
         self.id = id
         self.type = type
         self.instance = instance
         self.position = position
+        self.blink_state = blink_state
 
     def get_values(self) -> dict:
         return {
@@ -63,6 +64,7 @@ class FieldDisplay:
             "type": self.type,
             "instance": self.instance,
             "position": self.position,
+            "blink_state": self.blink_state,
         }
 
     def update_values(self, new_values: dict) -> None:

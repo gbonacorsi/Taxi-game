@@ -56,3 +56,7 @@ class Screen:
         self.distance_display.clear()
         self.display_game.clear()        
         self.render(maps[MAP_INDEX])
+    
+    def change_blink(self) -> None:
+        self.display_game.change_blink()
+        print("Blink state changed from display system")

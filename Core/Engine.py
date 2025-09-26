@@ -32,7 +32,7 @@ class Engine:
         elif RENDERING==True and RENDER_ENGINE == "Turtle":
             game_screen = Screen(self.world)
             game_screen.initialize()
-            game_screen.render()            
+            game_screen.render()      
             keyboard_listener = KeyBoard(self.world)
             keyboard_listener.run()
             

@@ -1,7 +1,7 @@
 
 from Presentation.Turtle.display_system import Screen
 from Managers.world_manager import World
-from Configuration.setup import RENDER_ENGINE, RENDERING
+from Configuration.setup import RENDER_ENGINE, RENDERING, BLINK_DELAY, BLINK_SPEED
 
 class loop:
 
@@ -12,16 +12,17 @@ class loop:
         self.close_game = close_game
 
     def run (self):
+        
+        blink_counter = 0
         while not self.close_game:
-
-            if self.is_level_completed == False:
-                self.screen.update() if self.screen else None
-
-            elif self.is_level_completed:
-                self.world.reset() if self.world else None
-                self.screen.reset() if self.screen else None
-
-                self.is_level_completed = False
+            
+            self.screen.update() if self.screen else None
+            
+            if blink_counter >= BLINK_SPEED:
+                blink_counter = 0
+                self.screen.change_blink()
+            else:
+                blink_counter += 1
 
     def set_level_status(self, status: bool) -> None:
         self.is_level_completed = status

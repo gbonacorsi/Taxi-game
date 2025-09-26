@@ -2,7 +2,7 @@ import turtle
 from enum import Enum
 from Managers.world_manager import World
 from Configuration.data_structure import actions, entity_type, FieldDisplay, FieldRecord
-from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF
+from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF, BLINK_COLORS
 
 def action(action: actions, display_entity: object | None = None) -> actions | None:
     if action == actions.up:
@@ -42,16 +42,22 @@ class DestinationDisplay(turtle.Turtle):
             action(action, self)
 
 class ClientDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"], "blink_state": None, "blink_colors": None}) -> None:
+    def __init__(self, grid_id: int, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"]}) -> None:
         super().__init__()
         self.grid_id = grid_id
         self.shape(client_parameters["shape"])
         self.color(client_parameters["color"])
         self.penup()
         self.speed(client_parameters["speed"])
-        #self.blink_state = client_parameters["blink_state"]
-        #self.blink_colors = client_parameters["blink_colors"]
+        self.blink_state = False
     
+    def blink(self) -> None:
+        self.blink_state = not self.blink_state
+        if self.blink_state:
+            self.color(BLINK_COLORS[0])
+        else:
+            self.color(BLINK_COLORS[1])
+
         def action(self, action: actions) -> actions | None:
             action(action, self)
 
@@ -176,39 +182,11 @@ class Display_game:
                     destination.goto(screen_x, screen_y)
                     destination.stamp()
                     
-
-        def return_field_from_coordinate(self, coordinate: tuple[float, float],component_type: entity_type) -> FieldDisplay | None:
-
-            if entity_type.player == component_type:
+    def change_blink(self) -> None:
+        for client in self.clients:
+            client.blink()
+            client.stamp()
             
-                for field in self.players:
-                    if field.position == coordinate:
-                        return field
-            
-            if entity_type.client == component_type:
-            
-                for field in self.clients:
-                    if field.position == coordinate:
-                        return field
-            if entity_type.destination == component_type:
-            
-                for field in self.destinations:
-                    if field.position == coordinate:
-                        return field
-            if entity_type.wall == component_type:
-            
-                for field in self.walls:
-                    if field.position == coordinate:
-                        return field
-            if entity_type.shelf == component_type:
-            
-                for field in self.shelves:
-                    if field.position == coordinate:
-                        return field
-                    
-            return None
-
-# Enum DOPO le classi così sono già definite!
 class displays(Enum):
     Player = PlayerDisplay
     Client = ClientDisplay
