@@ -59,4 +59,3 @@ class Screen:
     
     def change_blink(self) -> None:
         self.display_game.change_blink()
-        print("Blink state changed from display system")

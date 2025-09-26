@@ -1,5 +1,3 @@
-#import Core.dependencies
-
 from Configuration.setup import *
 from Configuration.data_structure import *
 from Asset.levels import *
@@ -33,8 +31,6 @@ class Engine:
             game_screen = Screen(self.world)
             game_screen.initialize()
             game_screen.render()      
-            keyboard_listener = KeyBoard(self.world)
-            keyboard_listener.run()
             
             loop_instance = loop(world=self.world, screen=game_screen if RENDERING==True and RENDER_ENGINE == "Turtle" else None, is_level_completed=False, close_game=False)
             loop_instance.run()

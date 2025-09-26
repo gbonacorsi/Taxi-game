@@ -2,6 +2,7 @@
 from Presentation.Turtle.display_system import Screen
 from Managers.world_manager import World
 from Configuration.setup import RENDER_ENGINE, RENDERING, BLINK_DELAY, BLINK_SPEED
+from Systems.Input_management import KeyBoard
 
 class loop:
 
@@ -14,6 +15,10 @@ class loop:
     def run (self):
         
         blink_counter = 0
+        keyboard = KeyBoard()
+        keyboard.listen()
+        keyboard.run()
+        
         while not self.close_game:
             
             self.screen.update() if self.screen else None

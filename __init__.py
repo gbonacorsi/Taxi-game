@@ -1,1 +1,0 @@
-print("Taxi game initialized")
