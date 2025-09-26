@@ -1,7 +1,7 @@
 import turtle
 from enum import Enum
 from Managers.world_manager import World
-from Configuration.data_structure import actions, entity_type
+from Configuration.data_structure import actions, entity_type, FieldDisplay, FieldRecord
 from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF
 
 def action(action: actions, display_entity: object | None = None) -> actions | None:
@@ -24,9 +24,10 @@ def action(action: actions, display_entity: object | None = None) -> actions | N
         
         return action
 
-def update_field_matrix(matrix: World, position: tuple[int, int], new_values: dict, entity_type: entity_type) -> None:
-    field_matrix = matrix.return_field_from_coordinate(position, entity_type)
-    field_matrix.update_values(new_values)
+def update_field_matrix(matrix, position: tuple[int, int], new_values: dict, entity_type: entity_type) -> None:
+    pass
+    #field_matrix: FieldRecord = matrix.return_field_from_coordinate(position, entity_type)
+    #field_matrix.update_values(new_values)
 
 class DestinationDisplay(turtle.Turtle):
     def __init__(self, grid_id: int, destination_parameters: dict = {"shape": DESTINATION["SHAPE"], "color": DESTINATION["COLOR"], "speed": DESTINATION["SPEED"]}) -> None:
@@ -92,8 +93,9 @@ class ShelfDisplay(turtle.Turtle):
 
 class Display_game:
 
-    def __init__(self, matrix: World | None = None) -> None:
-        self.matrix = matrix
+    def __init__(self, world: World) -> None:
+        self.world = world
+        self.matrix = world.matrix
         self.players=[]
         self.clients=[]
         self.destinations=[]
@@ -118,7 +120,7 @@ class Display_game:
                 screen_y = initial_coor[1] - (y * square_interval)
 
                 if character == "#":
-                    shelf = ShelfDisplay(self.shelves_id, x, y)
+                    shelf = ShelfDisplay(self.shelves_id)
                     
                     field_display = FieldDisplay(self.shelves_id, entity_type.shelf, ShelfDisplay, (x,y))
                     self.shelves.append(field_display)
@@ -131,10 +133,10 @@ class Display_game:
                     shelf.stamp()
 
                 if character == "!":
-                    wall = WallDisplay(self.walls_id, x, y)
+                    wall = WallDisplay(self.walls_id)
                     self.walls.append(wall)
                     self.walls_id += 1
-                    update_field_matrix(self.matrix, (x,y), {
+                    update_field_matrix(self.world, (x,y), {
                         "grid_id": self.walls_id
                     }, entity_type.wall)
                     
@@ -142,7 +144,7 @@ class Display_game:
                     wall.stamp()
                     
                 if character == "P":
-                    player = PlayerDisplay(self.players_id, x, y)
+                    player = PlayerDisplay(self.players_id)
                     self.players.append(player)
                     self.players_id += 1
                     update_field_matrix(self.matrix, (x,y), {
@@ -152,8 +154,8 @@ class Display_game:
                     player.goto(screen_x, screen_y)
                     player.stamp()
                     
-                if character == "c":
-                    client = ClientDisplay(self.clients_id, x, y)
+                if character == "C":
+                    client = ClientDisplay(self.clients_id)
                     self.clients.append(client)
                     self.clients_id += 1
                     update_field_matrix(self.matrix, (x,y), {
@@ -164,7 +166,7 @@ class Display_game:
                     client.stamp()
                     
                 if character == "X":
-                    destination = DestinationDisplay(self.destinations_id, x, y)
+                    destination = DestinationDisplay(self.destinations_id)
                     self.destinations.append(destination)
                     self.destinations_id += 1
                     update_field_matrix(self.matrix, (x,y), {

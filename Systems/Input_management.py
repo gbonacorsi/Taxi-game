@@ -4,12 +4,12 @@ from Managers.world_manager import World
 
 class KeyBoard:
     
-    def __init__(self, players: list, simulation: World) -> None:
+    def __init__(self, world: World) -> None:
         self.player = None
         self.player_index = 0
-        self.players = players
-        self.simulation = simulation
-        pass
+        self.players = world.players
+        #self.simulation = simulation
+
 
     def select_player(self, index: int) -> None:
         self.player = self.players[index] if 0 <= index < len(self.players) else self.players[0]
@@ -19,6 +19,7 @@ class KeyBoard:
         """Setup keyboard controls for the game."""
         turtle.listen()
         
+        """
         # Movement controls - WASD and Arrow keys
         turtle.onkey(self.simulation.action(self.player, actions.up), "w")
         turtle.onkey(self.simulation.action(self.player, actions.down), "s")
@@ -31,3 +32,4 @@ class KeyBoard:
         turtle.onkey(self.select_player(2), "3")
         turtle.onkey(self.select_player(3), "4")
         turtle.onkey(self.select_player(4), "5")
+        """

@@ -1,5 +1,4 @@
-import Core.dependencies
-
+#import Core.dependencies
 
 from Configuration.setup import *
 from Configuration.data_structure import *
@@ -17,20 +16,29 @@ class Engine:
         pass
          
     def initialize(self):
-        world = World()
-        self.matrix = world.generate_new_world()
+        self.world = World()
+        self.matrix = self.world.generate_new_world()
 
     def run(self, RENDERING=RENDERING, RENDER_ENGINE=RENDER_ENGINE):
             
-        if RENDERING==True and RENDER_ENGINE == "Turtle":
-            game_screen = Screen()
+        if RENDERING==False: 
+
+            print("""The simulation is running in non-graphical mode. Type: 'exit' to quit.""")
+            input_command = input("Press command: ")
+            
+            if input_command == "exit":
+                exit()  
+        
+        elif RENDERING==True and RENDER_ENGINE == "Turtle":
+            print("coucou")
+            game_screen = Screen(self.world)
             game_screen.initialize()
-            game_screen.render(maps[MAP_INDEX])            
+            game_screen.render()            
             keyboard_listener = KeyBoard(self.world)
             keyboard_listener.run()
             
-        loop_instance = loop(world=self.world, screen=game_screen if RENDERING==True and RENDER_ENGINE == "Turtle" else None, is_level_completed=False, close_game=False)
-        loop_instance.run()
+            loop_instance = loop(world=self.world, screen=game_screen if RENDERING==True and RENDER_ENGINE == "Turtle" else None, is_level_completed=False, close_game=False)
+            loop_instance.run()
         
     def action(self, player: FieldRecord, action: actions):
         

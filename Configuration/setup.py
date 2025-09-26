@@ -17,7 +17,7 @@ MALUS_TRAVEL = -1
 MALUS_WRONG_DROP = -20
 
 # DISPLAY
-SCREEN_WIDTH = 800
+SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
 SCREEN_BGCOLOR = "black"
 
@@ -29,37 +29,38 @@ TITLE = {
     "FONT_SIZE": 24,
     "FONT_TYPE": "bold",
     "FONT_COLOR": "white",
-    "X": -380,
-    "Y": 370
+    "X": -360,
+    "Y": 340
 }
 
 CONTROL = {
     "FONT_NAME": "Arial",
     "FONT_ALIGN": "left",
-    "FONT_SIZE": 20,
+    "FONT_SIZE": 14,
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
-    "X": -380,
-    "Y": 350
+    "X": -360,
+    "Y": 240
 }
 
 ELEMENT = {
     "FONT_NAME": "Arial",
     "FONT_ALIGN": "left",
-    "FONT_SIZE": 16,
+    "FONT_SIZE": 14,
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
-    "X": -380,
-    "Y": 330
+    "X": -360,
+    "Y": 210
 }
 
 MISSION = {
     "FONT_NAME": "Arial",
+    "FONT_ALIGN": "left",
     "FONT_SIZE": 14,
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
-    "X": -380,
-    "Y": -380
+    "X": -360,
+    "Y": -370
 }
 
 DISPLAY_SCORE = {
@@ -68,22 +69,22 @@ DISPLAY_SCORE = {
     "FONT_SIZE": 18,
     "FONT_TYPE": "bold",
     "FONT_COLOR": "white",
-    "X": 40,
-    "Y": 350
+    "X": 120,
+    "Y": 340
 }
 
 DISPLAY_DISTANCE = {
     "FONT_NAME": "Arial",
     "FONT_ALIGN": "left",
-    "FONT_SIZE": 18,
-    "FONT_TYPE": "bold",
+    "FONT_SIZE": 14,
+    "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
-    "X": 40,
+    "X": 120,
     "Y": 290
 }
 
 MAZE = {
-    "X": -240,
+    "X": -280,
     "Y": 180
 }
 

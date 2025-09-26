@@ -2,6 +2,7 @@ import turtle
 
 from Configuration.setup import *
 
+from Managers.world_manager import World
 from Presentation.Turtle.ui_system import TextDisplay, ScoreDisplay, DistanceDisplay
 from Presentation.Turtle.render_system import Display_game
 
@@ -10,15 +11,15 @@ from Asset.labels import LABELS
 
 class Screen:
     
-    def __init__(self):
-        self.label = LABELS[LANGUAGE.value]
-        self.title= TextDisplay(color=TITLE["FONT_COLOR"], format={"align": TITLE["FONT_ALIGN"], "font": TITLE["FONT_NAME"], "font_size": TITLE["FONT_SIZE"], "font_type": TITLE["FONT_TYPE"]}),
-        self.controls= TextDisplay(color=CONTROL["FONT_COLOR"], format={"align": CONTROL["FONT_ALIGN"], "font": CONTROL["FONT_NAME"], "font_size": CONTROL["FONT_SIZE"], "font_type": CONTROL["FONT_TYPE"]}),
-        self.elements= TextDisplay(color=ELEMENT["FONT_COLOR"], format={"align": ELEMENT["FONT_ALIGN"], "font": ELEMENT["FONT_NAME"], "font_size": ELEMENT["FONT_SIZE"], "font_type": ELEMENT["FONT_TYPE"]}),
-        self.mission= TextDisplay(color=MISSION["FONT_COLOR"], format={"align": MISSION["FONT_ALIGN"], "font": MISSION["FONT_NAME"], "font_size": MISSION["FONT_SIZE"], "font_type": MISSION["FONT_TYPE"]}),
-        self.score_display= ScoreDisplay(self.label["score"], format={"align": DISPLAY_SCORE["FONT_ALIGN"], "font": DISPLAY_SCORE["FONT_NAME"], "font_size": DISPLAY_SCORE["FONT_SIZE"], "font_type": DISPLAY_SCORE["FONT_TYPE"]}),
-        self.distance_display= DistanceDisplay(self.label["distance"], format={"align": DISPLAY_DISTANCE["FONT_ALIGN"], "font": DISPLAY_DISTANCE["FONT_NAME"], "font_size": DISPLAY_DISTANCE["FONT_SIZE"], "font_type": DISPLAY_DISTANCE["FONT_TYPE"]}),
-        self.display_game= Display_game()
+    def __init__(self, world: World):
+        self.label = LABELS[LANGUAGE]
+        self.title = TextDisplay(color=TITLE["FONT_COLOR"], format={"align": TITLE["FONT_ALIGN"], "font": TITLE["FONT_NAME"], "font_size": TITLE["FONT_SIZE"], "font_type": TITLE["FONT_TYPE"]})
+        self.controls = TextDisplay(color=CONTROL["FONT_COLOR"], format={"align": CONTROL["FONT_ALIGN"], "font": CONTROL["FONT_NAME"], "font_size": CONTROL["FONT_SIZE"], "font_type": CONTROL["FONT_TYPE"]})
+        self.elements = TextDisplay(color=ELEMENT["FONT_COLOR"], format={"align": ELEMENT["FONT_ALIGN"], "font": ELEMENT["FONT_NAME"], "font_size": ELEMENT["FONT_SIZE"], "font_type": ELEMENT["FONT_TYPE"]})
+        self.mission = TextDisplay(color=MISSION["FONT_COLOR"], format={"align": MISSION["FONT_ALIGN"], "font": MISSION["FONT_NAME"], "font_size": MISSION["FONT_SIZE"], "font_type": MISSION["FONT_TYPE"]})
+        self.score_display = ScoreDisplay(self.label["score"], format={"align": DISPLAY_SCORE["FONT_ALIGN"], "font": DISPLAY_SCORE["FONT_NAME"], "font_size": DISPLAY_SCORE["FONT_SIZE"], "font_type": DISPLAY_SCORE["FONT_TYPE"]})
+        self.distance_display = DistanceDisplay(label={"distance_client": self.label["distance_client"], "distance_destination": self.label["distance_destination"]}, format={"align": DISPLAY_DISTANCE["FONT_ALIGN"], "font": DISPLAY_DISTANCE["FONT_NAME"], "font_size": DISPLAY_DISTANCE["FONT_SIZE"], "font_type": DISPLAY_DISTANCE["FONT_TYPE"]})
+        self.display_game = Display_game(world)
     
     def initialize(self) -> None:
         turtle.clearscreen()
@@ -34,7 +35,7 @@ class Screen:
         self.mission.display_text(MISSION["X"], MISSION["Y"], self.label["mission"])
         self.score_display.display_score(DISPLAY_SCORE["X"], DISPLAY_SCORE["Y"], 0)
         self.distance_display.display_distance(DISPLAY_DISTANCE["X"], DISPLAY_DISTANCE["Y"], 0, 0)
-        self.display_game.maze_render((MAZE["X"], MAZE["Y"]), map)
+        self.display_game.maze_render((MAZE["X"], MAZE["Y"]), maps[MAP_INDEX])
         self.mission.display_text(MISSION["X"], MISSION["Y"], self.label["mission"])
     
     def update_score(self, score: int) -> None:
