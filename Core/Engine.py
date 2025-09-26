@@ -30,7 +30,6 @@ class Engine:
                 exit()  
         
         elif RENDERING==True and RENDER_ENGINE == "Turtle":
-            print("coucou")
             game_screen = Screen(self.world)
             game_screen.initialize()
             game_screen.render()            
