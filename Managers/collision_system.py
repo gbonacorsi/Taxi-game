@@ -6,17 +6,17 @@ def is_collision(new_coordinate: tuple[float, float], matrix: list | None) -> bo
     collision = False
     
     if matrix is not None:
-        
-        components_found = matrix[new_coordinate(1), new_coordinate(0)]
+
+        components_found = matrix[new_coordinate[1]][new_coordinate[0]]
 
         for component in components_found:
-            if component.get_value()["type"] == entity_type.wall or component.get_value()["type"] == entity_type.player:
+            if component.get_values()["type"] == entity_type.wall or component.get_values()["type"] == entity_type.player:
                 collision = True
                 return collision
     
     return collision
 
-def is_valide_movement(new_coordinate: tuple[float, float]) -> bool:
+def is_valide_movement(new_coordinate: tuple[float, float], matrix: list) -> bool:
     
-    valide_movement=is_collision(new_coordinate)
+    valide_movement= not is_collision(new_coordinate, matrix)
     return valide_movement

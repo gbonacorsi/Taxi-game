@@ -12,11 +12,11 @@ class World:
         
         self.map = maps[MAP_INDEX]
         self.matrix = []
-        self.players=[]
-        self.clients=[]
-        self.destinations=[]
-        self.walls=[]
-        self.shelves=[]
+        self.players: list[FieldRecord] | []= []
+        self.clients: list[FieldRecord] | []=[]
+        self.destinations: list[FieldRecord] | []=[]
+        self.walls: list[FieldRecord] | []=[]
+        self.shelves: list[FieldRecord] | []=[]
         self.players_id = 1
         self.clients_id = 1
         self.destinations_id = 1
@@ -58,7 +58,7 @@ class World:
             if component_type == entity_type.player:
                 new_player = Player(self.players_id, position[0], position[1])
                 record=FieldRecord(self.players_id, entity_type.player, new_player, (position[0], position[1]))
-                self.players.append(new_player)
+                self.players.append(record)
                 old_row_string = self.map[position[1]]
                 list_row = list(old_row_string)
                 list_row[position[0]] = "P"
@@ -69,7 +69,7 @@ class World:
             elif component_type == entity_type.client:
                 new_client = Client(self.clients_id, position[0], position[1])
                 record=FieldRecord(self.clients_id, entity_type.client, new_client, (position[0], position[1]))
-                self.clients.append(new_client)
+                self.clients.append(record)
                 self.matrix[position[1]][position[0]] = [record]
                 
                 old_row_string = self.map[position[1]]
@@ -83,7 +83,7 @@ class World:
             elif component_type == entity_type.destination:
                 new_destination = Destination(self.destinations_id, position[0], position[1])
                 record=FieldRecord(self.destinations_id, entity_type.destination, new_destination, (position[0], position[1]))
-                self.destinations.append(new_destination)
+                self.destinations.append(record)
                 self.matrix[position[1]][position[0]] = [record]
                 old_row_string = self.map[position[1]]
                 list_row = list(old_row_string)
@@ -130,22 +130,21 @@ class World:
     def add_component(self, new_coordinate: tuple[float, float], field: FieldRecord) -> None:
 
         if self.matrix is not None:
-            self.matrix[new_coordinate[1]][new_coordinate[0]].append(field)
+            self.matrix[new_coordinate[0]][new_coordinate[1]].append(field)
 
     def remove_component(self, old_coordinate: tuple[float, float], field: FieldRecord) -> None:
 
         if self.matrix is not None:
-            self.matrix[old_coordinate[1]][old_coordinate[0]].remove(field)
+            self.matrix[old_coordinate[0]][old_coordinate[1]].remove(field)
 
     def return_field_from_coordinate(self, coordinate: tuple[float, float], component_type: entity_type, in_matrix: bool = True) -> FieldRecord | None:
 
         if in_matrix:
-            if self.matrix is not None:
-                coordinates_value = self.matrix[coordinate[1]][coordinate[0]]
-                
-                for field in coordinates_value:
-                    if field.type == component_type.value and field.position == coordinate:
-                        return field
+            coordinates_value = self.matrix[coordinate[1]][coordinate[0]]
+            
+            for field in coordinates_value:
+                if field.type == component_type.value and field.position == coordinate:
+                    return field
         else:
             if component_type == entity_type.player:
             
@@ -178,15 +177,23 @@ class World:
                         return field
         return None
 
+
+    def return_player_from_id(self, id:int):
+        
+        for player in self.players:
+            if player.get_values()["id"] == id:
+                return player 
+
+    
     def reset(self) -> None:
 
         self.map = maps[MAP_INDEX]
         self.matrix = []
-        self.players=[]
-        self.clients=[]
-        self.destinations=[]
-        self.walls=[]
-        self.shelves=[]
+        self.players: list[FieldRecord] | []= []
+        self.clients: list[FieldRecord] | []=[]
+        self.destinations: list[FieldRecord] | []=[]
+        self.walls: list[FieldRecord] | []=[]
+        self.shelves: list[FieldRecord] | []=[]
         self.players_id = 1
         self.clients_id = 1
         self.destinations_id = 1

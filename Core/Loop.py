@@ -15,7 +15,7 @@ class loop:
     def run (self):
         
         blink_counter = 0
-        keyboard = KeyBoard()
+        keyboard = KeyBoard(self.world)
         keyboard.listen()
         keyboard.run()
         

@@ -35,16 +35,5 @@ class Engine:
             loop_instance = loop(world=self.world, screen=game_screen if RENDERING==True and RENDER_ENGINE == "Turtle" else None, is_level_completed=False, close_game=False)
             loop_instance.run()
         
-    def action(self, player: FieldRecord, action: actions):
-        
-        movement_listener = Movement2D(self.world, player)
-        
-        if actions.up == action:
-            movement_listener.go_up()
-        elif actions.down == action:
-            movement_listener.go_down()
-        elif actions.left == action:
-            movement_listener.go_left()
-        elif actions.right == action:
-            movement_listener.go_right()
+
 
