@@ -1,7 +1,16 @@
 from Configuration.data_structure import actions
 from Managers.movement_system import Movement2D
 from Managers.world_manager import World
+from enum import Enum
 
+class actions(Enum):
+    up = "up"
+    down = "down"
+    left = "left"
+    right = "right"
+    pick = "pick"
+    drop = "drop"
+    
 
 class EventManager:
 

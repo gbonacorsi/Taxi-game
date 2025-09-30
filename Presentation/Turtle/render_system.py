@@ -1,7 +1,7 @@
 import turtle
 from enum import Enum
 from Managers.world_manager import World
-from Configuration.data_structure import actions, entity_type, FieldDisplay, FieldRecord
+from Configuration.data_structure import actions, entity_type, FieldDisplay, ComponentRecord
 from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF, BLINK_COLORS
 
 def action(action: actions, display_entity: object | None = None) -> actions | None:
@@ -26,76 +26,8 @@ def action(action: actions, display_entity: object | None = None) -> actions | N
 
 def update_field_matrix(matrix, position: tuple[int, int], new_values: dict, entity_type: entity_type) -> None:
     pass
-    #field_matrix: FieldRecord = matrix.return_field_from_coordinate(position, entity_type)
+    #field_matrix: ComponentRecord = matrix.return_field_from_coordinate(position, entity_type)
     #field_matrix.update_values(new_values)
-
-class DestinationDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, destination_parameters: dict = {"shape": DESTINATION["SHAPE"], "color": DESTINATION["COLOR"], "speed": DESTINATION["SPEED"]}) -> None:
-        super().__init__()
-        self.grid_id = grid_id
-        self.shape(destination_parameters["shape"])
-        self.color(destination_parameters["color"])
-        self.penup()
-        self.speed(destination_parameters["speed"])
-
-        def action(self, action: actions) -> actions | None:
-            action(action, self)
-
-class ClientDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"]}) -> None:
-        super().__init__()
-        self.grid_id = grid_id
-        self.shape(client_parameters["shape"])
-        self.color(client_parameters["color"])
-        self.penup()
-        self.speed(client_parameters["speed"])
-        self.blink_state = False
-    
-    def blink(self) -> None:
-        self.blink_state = not self.blink_state
-        if self.blink_state:
-            self.color(BLINK_COLORS[0])
-        else:
-            self.color(BLINK_COLORS[1])
-
-        def action(self, action: actions) -> actions | None:
-            action(action, self)
-
-class PlayerDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, player_parameters: dict = {"shape": PLAYER["SHAPE"], "color": PLAYER["COLOR"], "speed": PLAYER["SPEED"]}) -> None:
-        super().__init__()
-        self.grid_id = grid_id
-        self.shape(player_parameters["shape"])
-        self.color(player_parameters["color"])
-        self.penup()
-        self.speed(player_parameters["speed"])
-
-        def action(self, action: actions) -> actions | None:
-            action(action, self)
-        
-class WallDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, wall_parameters: dict = {"shape": WALL["SHAPE"], "color": WALL["COLOR"], "speed": WALL["SPEED"]}) -> None:
-        super().__init__()
-        self.grid_id = grid_id
-        self.shape(wall_parameters["shape"])
-        self.color(wall_parameters["color"])
-        self.penup()
-        self.speed(wall_parameters["speed"])
-
-        def action(self, action: actions) -> actions | None:
-            action(action, self)
-
-class ShelfDisplay(turtle.Turtle):
-    def __init__(self, grid_id: int, shelf_parameters: dict = {"shape": SHELF["SHAPE"], "color": SHELF["COLOR"], "speed": SHELF["SPEED"]}) -> None:
-        super().__init__()
-        self.grid_id = grid_id
-        self.shape(shelf_parameters["shape"])
-        self.color(shelf_parameters["color"])
-        self.penup()
-        self.speed(shelf_parameters["speed"])
-
-        def action(self, action: actions) -> actions | None:
-            action(action, self)
 
 class Display_game:
 
@@ -186,10 +118,3 @@ class Display_game:
         for client in self.clients:
             client.blink()
             client.stamp()
-            
-class displays(Enum):
-    Player = PlayerDisplay
-    Client = ClientDisplay
-    Destination = DestinationDisplay
-    Wall = WallDisplay
-    Shelf = ShelfDisplay

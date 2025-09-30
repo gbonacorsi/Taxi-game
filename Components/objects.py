@@ -1,21 +1,18 @@
-from Entities.objects import *
+from Entities.objects import DestinationEntity
 
 class Destination(DestinationEntity):
-    def __init__(self, entity_id:int, x: float = 0, y: float = 0):
+    def __init__(self, entity_id:int, position: tuple[ int, int]):
         super().__init__(entity_id=entity_id)
-        self.x = x
-        self.y = y
+        self.position = position
         self.arrived = False
 
-    def set_position(self,x: float, y: float):
-        self.x = x
-        self.y = y
-        return (self.x, self.y)
+    def set_position(self,position: tuple[ int, int]) -> None:
+        self.position = position
+
+    def get_position(self) -> tuple[int, int]:
+        return self.position
     
-    def get_position(self) -> tuple[float, float]:
-        return (self.x, self.y)
-    
-    def set_arrived(self) -> None:
+    def arrived(self) -> None:
         self.arrived = True
     
     def clear_arrival(self) -> None:

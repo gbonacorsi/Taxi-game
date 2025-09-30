@@ -1,5 +1,5 @@
 # Import reale perché usiamo lang a runtime
-from Configuration.data_structure import lang
+from Asset.labels import lang
 
 # GAME SETTINGS
 MAP_INDEX = 0

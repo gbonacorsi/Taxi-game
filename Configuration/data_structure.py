@@ -1,18 +1,13 @@
 from enum import Enum
-from Components.objects import *
-from Components.subject import *
-from Components.maze_components import *
+from turtle import position
+from Components.objects import Destination
+from Components.subject import Player, Client
+from Components.maze_components import Wall, Shelf
+from Presentation.Turtle.components_display import PlayerDisplay, ClientDisplay, DestinationDisplay, WallDisplay, ShelfDisplay
 
-class entity_type(Enum):
-    player = "player"
-    client = "client"
-    destination = "destination"
-    wall = "wall"
-    shelf = "shelf"
+# Note: 
+#   Accross the project the position is a tuple (x, y). You will find often express like position: tuple[int, int]
 
-class lang(Enum):
-    ENG = "English"
-    
 class actions(Enum):
     up = "up"
     down = "down"
@@ -23,26 +18,50 @@ class actions(Enum):
     
 class components(Enum):
     Player = Player
+    Shelf = Shelf
+    Wall = Wall
     Client = Client
     Destination = Destination
-    Wall = Wall
-    Shelf = Shelf
+    
+class displays(Enum):
+    Player = PlayerDisplay
+    Client = ClientDisplay
+    Destination = DestinationDisplay
+    Wall = WallDisplay
+    Shelf = ShelfDisplay
+    
+class component_record_keys(Enum):
+    id = "id"
+    type = "type"
+    instance = "instance"
+    position = "position"
 
-class FieldRecord:
-    def __init__(self, id: int, type: entity_type, instance: components, position: tuple[int, int], grid_id: int | None = None) -> None:
+class display_record_keys(Enum):
+    id = "id"
+    type = "type"
+    instance = "instance"
+    blink_state = "blink_state"
+    
+class entity_type(Enum):
+    player = "player"
+    client = "client"
+    destination = "destination"
+    wall = "wall"
+    shelf = "shelf"
+    
+class ComponentRecord:
+    def __init__(self, id: int, type: entity_type, instance: components, position = tuple[int, int]) -> None:
         self.id = id
         self.type = type
         self.instance = instance
         self.position = position
-        self.grid_id = grid_id
 
     def get_values(self) -> dict:
         return {
             "id": self.id,
             "type": self.type,
             "instance": self.instance,
-            "position": self.position,
-            "grid_id": self.grid_id
+            "position": self.position
         }
 
     def update_values(self, new_values: dict) -> None:
@@ -50,12 +69,11 @@ class FieldRecord:
             if hasattr(self, key):
                 setattr(self, key, value)
 
-class FieldDisplay:
-    def __init__(self, id: int, type: entity_type, instance: object, position: tuple[int, int], blink_state: bool = False) -> None:
+class DisplayRecord:
+    def __init__(self, id: int, type: entity_type, instance: displays, blink_state: bool = False) -> None:
         self.id = id
         self.type = type
         self.instance = instance
-        self.position = position
         self.blink_state = blink_state
 
     def get_values(self) -> dict:
@@ -63,7 +81,6 @@ class FieldDisplay:
             "id": self.id,
             "type": self.type,
             "instance": self.instance,
-            "position": self.position,
             "blink_state": self.blink_state,
         }
 

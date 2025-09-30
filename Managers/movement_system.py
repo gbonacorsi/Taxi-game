@@ -1,9 +1,10 @@
 
-from Configuration.data_structure import *
+from Configuration.data_structure import 
 from Managers.world_manager import World
 from Managers.collision_system import is_valide_movement
 
-def move(world: World | None = None,field: FieldRecord | None = None, 
+
+def move(world: World | None = None,field: ComponentRecord | None = None, 
          new_coor: tuple[float, float] | None = None, current_position: tuple[float, float] | None = None) -> None:
     
     if is_valide_movement(new_coor, world.matrix) == True:
@@ -18,7 +19,7 @@ def move(world: World | None = None,field: FieldRecord | None = None,
 
 class Movement2D:
 
-    def __init__(self, world: World | None = None, field: FieldRecord | None = None) -> None:
+    def __init__(self, world: World | None = None, field: ComponentRecord | None = None) -> None:
 
         self.world = world
         self.field =field
