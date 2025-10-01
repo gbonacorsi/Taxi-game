@@ -1,34 +1,43 @@
-
-from Presentation.Turtle.display_system import Screen
 from Managers.world_manager import World
-from Configuration.setup import RENDER_ENGINE, RENDERING, BLINK_DELAY, BLINK_SPEED
+from Presentation.Turtle.display_system import TurtleScreen
+from Configuration.setup import RENDER_ENGINE, RENDERING, BLINK_SPEED
 from Systems.Input_management import KeyBoard
+from Core.event_manager import EventManager
+
+def turtle_client_blinking(screen: TurtleScreen):
+    blink_counter = 0
+    
+    if blink_counter >= BLINK_SPEED:
+        blink_counter = 0
+        screen.change_blink()
+    else:
+        blink_counter += 1
+
 
 class loop:
 
-    def __init__ (self, world: World, screen : Screen | None = None, is_level_completed: bool = False, close_game: bool = False) -> None:
+    def __init__ (self, world: World, screen : TurtleScreen | None = None) -> None:
         self.world = world
-        self.screen = screen if RENDER_ENGINE == "Turtle" and RENDERING == True else None
-        self.is_level_completed = is_level_completed
-        self.close_game = close_game
+        self.screen = screen
+        self.is_level_completed : bool = False
 
     def run (self):
         
-        blink_counter = 0
-        
-        #keyboard = KeyBoard(self.world)
-        #keyboard.listen()
-        #keyboard.run()
-        
-        while not self.close_game:
+        if RENDERING==True and RENDER_ENGINE == "Turtle":
             
-            self.screen.update() if self.screen else None
+            event_manager = EventManager(self.world, self.screen)
+            event_manager.select_client(0)  # Select the first player by default
             
-            if blink_counter >= BLINK_SPEED:
-                blink_counter = 0
-                self.screen.change_blink()
-            else:
-                blink_counter += 1
+            keyboard = KeyBoard(self.world, event_manager)
+            keyboard.listen()
+            
+            try:
+                
+                while True:
+                    turtle_client_blinking(self.screen)
+                    self.screen.update()
+                    keyboard.run()
 
-    def set_level_status(self, status: bool) -> None:
-        self.is_level_completed = status
+            finally:
+                print("Game closed.")
+                exit()

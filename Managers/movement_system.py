@@ -1,12 +1,12 @@
 from Configuration.data_structure import ComponentRecord, entity_type
+from Components.subject import Player
 from Managers.world_manager import World
 from Managers.collision_system import is_valide_movement
 
 
-def move(world: World, component: ComponentRecord, 
+def move(world: World, component: ComponentRecord ,
+         current_position: tuple[float, float],
          new_position: tuple[float, float]) -> None:
-    
-    current_position = component.get_values()["instance"].get_position()
 
     if is_valide_movement(new_position, world.matrix) == True:
             world.matrix.move_record(current_position, new_position, component)
@@ -22,17 +22,21 @@ class Movement2D:
     def go_up(self) -> tuple[float, float]:
 
         new_coor = (self.current_position[0], self.current_position[1] - 1)
-        move(self.world, self.component, new_coor)
+        move(self.world,self.component, self.current_position, new_coor)      
+        return self.current_position, new_coor
 
     def go_down(self) -> tuple[float, float]:
 
         new_coor = (self.current_position[0], self.current_position[1] + 1)
-        move(self.world, self.component, new_coor)
+        move(self.world,self.component, self.current_position, new_coor)      
+        return self.current_position, new_coor
 
     def go_left(self) -> tuple[float, float]:
         new_coor = (self.current_position[0] - 1, self.current_position[1])
-        move(self.world, self.component, new_coor)
+        move(self.world, self.component, self.current_position, new_coor)
+        return self.current_position, new_coor
 
     def go_right(self) -> tuple[float, float]:
         new_coor = (self.current_position[0] + 1, self.current_position[1])
-        move(self.world, self.component, new_coor)
+        move(self.world, self.component, self.current_position, new_coor)
+        return self.current_position, new_coor

@@ -1,5 +1,5 @@
 import turtle
-
+from Configuration.data_structure import ComponentRecord
 from Configuration.setup import (SCREEN_BGCOLOR, SCREEN_WIDTH, SCREEN_HEIGHT, LANGUAGE, MAP_INDEX,
                            TITLE, CONTROL, ELEMENT, MISSION, DISPLAY_SCORE, DISPLAY_DISTANCE, MAZE)
 
@@ -10,7 +10,7 @@ from Presentation.Turtle.render_system import Display_game
 from Asset.levels import maps
 from Asset.labels import LABELS
 
-class Screen:
+class TurtleScreen:
     
     def __init__(self, world: World):
         self.label = LABELS[LANGUAGE]
@@ -60,3 +60,8 @@ class Screen:
     
     def change_blink(self) -> None:
         self.display_game.change_blink()
+    
+    def move_display_record(self, current_position: tuple[float, float], new_position: tuple[float, float], component: ComponentRecord) -> None:
+        self.display_game.move_display_record(current_position, new_position, component)
+        
+        

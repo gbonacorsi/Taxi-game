@@ -4,39 +4,39 @@ from Managers.world_manager import World
 from Core.event_manager import EventManager
 
 class KeyBoard:
-    
-    def __init__(self, world: World) -> None:
+
+    def __init__(self, world: World, event_manager: EventManager) -> None:
         self.player_index = 0
         self.payer = None
-        self.event_manager = EventManager(world) 
+        self.event_manager = event_manager
 
     def listen(self) -> None:
         turtle.listen()
     
     def select_player_1(self) -> None:
-        self.player_index = 1
+        self.player_index = 0
         self.player = self.event_manager.select_client(self.player_index)
         print(f"Player {self.player_index + 1} selected")
 
     def select_player_2(self) -> None:
-        self.player_index = 2
+        self.player_index = 1
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 2} selected")
+        print(f"Player {self.player_index + 1} selected")
 
     def select_player_3(self) -> None:
-        self.player_index = 3
+        self.player_index = 2
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 3} selected")
+        print(f"Player {self.player_index + 1} selected")
 
     def select_player_4(self) -> None:
-        self.player_index = 4
+        self.player_index = 3
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 4} selected")
+        print(f"Player {self.player_index + 1} selected")
 
     def select_player_5(self) -> None:
         self.player_index = 4
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 5} selected")
+        print(f"Player {self.player_index + 1} selected")
 
       
     
@@ -51,7 +51,6 @@ class KeyBoard:
     
     def go_right(self) -> None:
         self.event_manager.action(actions.right)
-        
 
     def run(self) -> None:
         

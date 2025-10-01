@@ -1,3 +1,4 @@
+from operator import index
 import turtle
 from enum import Enum
 from Managers.world_manager import World
@@ -61,32 +62,46 @@ class Display_game:
             client_display : ClientDisplay= client_display_record[1]
             client_display.blink()
             client_display.stamp()
-    
-    def move_record(self, old_position: tuple[int, int], new_position: tuple[int, int], 
-                    display_component: ClientDisplay | DestinationDisplay | WallDisplay | ShelfDisplay | PlayerDisplay) -> None:
+
+    def move_display_record(self, old_position: tuple[int, int], new_position: tuple[int, int],
+                    component: ComponentRecord) -> None:
         
-        if isinstance(display_component, ClientDisplay):
-            index=self.clients_display.index(old_position)
+        component_type = component.get_values()["type"]
+        
+        if component_type == entity_type.client:
+            index, display_component = self.return_from_position(old_position, self.clients_display)
             display_component : ClientDisplay = self.clients_display.pop(index)[1]
             self.clients_display.append([new_position, display_component])
-        elif isinstance(display_component, DestinationDisplay):
-            index=self.destinations_display.index(old_position)
+        elif component_type == entity_type.destination:
+            index, display_component = self.return_from_position(old_position, self.destinations_display)
             display_component : DestinationDisplay = self.destinations_display.pop(index)[1]
             self.destinations_display.append([new_position, display_component])
-        elif isinstance(display_component, WallDisplay):
-            index=self.walls_display.index(old_position)
+        elif component_type == entity_type.wall:
+            index, display_component = self.return_from_position(old_position, self.walls_display)
             display_component : WallDisplay = self.walls_display.pop(index)[1]
             self.walls_display.append([new_position, display_component])
-        elif isinstance(display_component, ShelfDisplay):
-            index=self.shelves_display.index(old_position)
+        elif component_type == entity_type.shelf:
+            index, display_component = self.return_from_position(old_position, self.shelves_display)
             display_component : ShelfDisplay = self.shelves_display.pop(index)[1]
             self.shelves_display.append([new_position, display_component])
-        elif isinstance(display_component, PlayerDisplay):
-            index=self.players_display.index(old_position)
+        elif component_type == entity_type.player:
+            index, display_component = self.return_from_position(old_position, self.players_display)
             display_component : PlayerDisplay = self.players_display.pop(index)[1]
             self.players_display.append([new_position, display_component])
 
         x = MAZE["X"] + (new_position[0] * SPACE_BETWEEN_CELLS) + new_position[0]
         y = MAZE["Y"]  - (new_position[1] * SPACE_BETWEEN_CELLS) - new_position[1]
+        display_component.clear()
         display_component.goto(x, y)
         display_component.stamp()
+    
+    def return_from_position(self, position: tuple[int, int], 
+                         display_list: list[None | ClientDisplay | DestinationDisplay | WallDisplay | ShelfDisplay | PlayerDisplay]) -> None:
+
+        index = 0
+        for record in display_list:
+            if record[0] == position:
+                return index, record[1]
+            index += 1
+        
+        return None
