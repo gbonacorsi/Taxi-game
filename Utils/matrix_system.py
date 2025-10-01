@@ -61,7 +61,7 @@ class Matrix:
         for (coords, data) in list_component:
             
             value=data[key]
-            
+                
             if value == criteria:
                 filtered.append([coords, data])
 
@@ -93,7 +93,7 @@ class Matrix:
             for record in components_record:
                 data = {}
                 data["id"] = record.id
-                data["type"]  = record.type.value
+                data["type"]  = record.type
                 data["instance"] = record.instance
                 list_record.append([position, data])
                 

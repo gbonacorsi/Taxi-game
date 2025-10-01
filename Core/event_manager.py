@@ -28,17 +28,21 @@ class EventManager:
         movement_listener = Movement2D(self.world, self.player)
 
         if actions.up == action:
-            current_position, new_position = movement_listener.go_up()
-            self.update_rendering(current_position, new_position, self.player)
+            current_position, new_position, moved = movement_listener.go_up()
+            if moved == True:
+                self.update_rendering(current_position, new_position, self.player)
             
         elif actions.down == action:
-            current_position, new_position = movement_listener.go_down()
-            self.update_rendering(current_position, new_position, self.player)
+            current_position, new_position, moved = movement_listener.go_down()
+            if moved == True:
+                self.update_rendering(current_position, new_position, self.player)
 
         elif actions.left == action:   
-            current_position, new_position = movement_listener.go_left()
-            self.update_rendering(current_position, new_position, self.player)
-            
+            current_position, new_position, moved = movement_listener.go_left()
+            if moved == True:
+                self.update_rendering(current_position, new_position, self.player)
+
         elif actions.right == action:
-            current_position, new_position = movement_listener.go_right()
-            self.update_rendering(current_position, new_position, self.player)
+            current_position, new_position, moved = movement_listener.go_right()
+            if moved == True:
+                self.update_rendering(current_position, new_position, self.player)

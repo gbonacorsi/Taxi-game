@@ -3,7 +3,7 @@ from Asset.labels import lang
 
 # GAME SETTINGS
 MAP_INDEX = 0
-PLAYERS_NUMBER = 2      # when RENDER_TURTLE = True -> max 5 players
+PLAYERS_NUMBER = 1     # when RENDER_TURTLE = True -> max 5 players
 CLIENTS_NUMBER = 3     
 RENDERING = True
 RENDER_ENGINE = "Turtle"  # Options: "Turtle"

@@ -39,9 +39,14 @@ class World:
             
             
             position = self.choose_random_position()
-            while self.matrix.is_empty(position) == False:
-                position = self.choose_random_position()
-            
+            if component_type == entity_type.client or component_type == entity_type.destination:
+                while not self.matrix.contain_type(position, entity_type.shelf) == True:
+                    position = self.choose_random_position()
+
+            else:
+                while self.matrix.is_empty(position) == False:
+                    position = self.choose_random_position()
+
             if component_type == entity_type.player:
                 new_player = Player(self.players_id, (position[0], position[1]))
                 record=ComponentRecord(self.players_id, entity_type.player, new_player)
