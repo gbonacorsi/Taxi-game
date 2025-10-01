@@ -1,6 +1,7 @@
 import turtle
 
-from Configuration.setup import *
+from Configuration.setup import (SCREEN_BGCOLOR, SCREEN_WIDTH, SCREEN_HEIGHT, LANGUAGE, MAP_INDEX,
+                           TITLE, CONTROL, ELEMENT, MISSION, DISPLAY_SCORE, DISPLAY_DISTANCE, MAZE)
 
 from Managers.world_manager import World
 from Presentation.Turtle.ui_system import TextDisplay, ScoreDisplay, DistanceDisplay

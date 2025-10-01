@@ -25,8 +25,10 @@ class ClientDisplay(turtle.Turtle):
         self.blink_state = not self.blink_state
         if self.blink_state:
             self.color(BLINK_COLORS[0])
+            print("blink on")
         else:
             self.color(BLINK_COLORS[1])
+            print("blink off")
 
 class PlayerDisplay(turtle.Turtle):
     def __init__(self, grid_id: int, player_parameters: dict = {"shape": PLAYER["SHAPE"], "color": PLAYER["COLOR"], "speed": PLAYER["SPEED"]}) -> None:
@@ -54,3 +56,10 @@ class ShelfDisplay(turtle.Turtle):
         self.color(shelf_parameters["color"])
         self.penup()
         self.speed(shelf_parameters["speed"])
+
+class components_display(Enum):
+    wall = WallDisplay
+    shelf = ShelfDisplay
+    player = PlayerDisplay
+    client = ClientDisplay
+    destination = DestinationDisplay

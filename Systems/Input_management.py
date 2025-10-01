@@ -21,22 +21,22 @@ class KeyBoard:
     def select_player_2(self) -> None:
         self.player_index = 2
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 1} selected")
+        print(f"Player {self.player_index + 2} selected")
 
     def select_player_3(self) -> None:
         self.player_index = 3
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 1} selected")
+        print(f"Player {self.player_index + 3} selected")
 
     def select_player_4(self) -> None:
         self.player_index = 4
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 1} selected")
+        print(f"Player {self.player_index + 4} selected")
 
     def select_player_5(self) -> None:
         self.player_index = 4
         self.player = self.event_manager.select_client(self.player_index)
-        print(f"Player {self.player_index + 1} selected")
+        print(f"Player {self.player_index + 5} selected")
 
       
     

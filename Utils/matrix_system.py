@@ -99,7 +99,7 @@ class Matrix:
                 
             return list_record
 
-    def is_contain_type(self, position: tuple[int, int], type: entity_type) -> bool:
+    def contain_type(self, position: tuple[int, int], type: entity_type) -> bool:
         
         components = self.return_position_records(position)
         filtered_components = self.filter(component_record_keys.type, type, None, components)
@@ -111,4 +111,9 @@ class Matrix:
         else:
             return False
 
-
+    def move_record(self, old_position: tuple[int, int], new_position: tuple[int, int], component: ComponentRecord) -> None:
+        if component in self.matrix[old_position[1]][old_position[0]]:
+            self.matrix[old_position[1]][old_position[0]].remove(component)
+            self.matrix[new_position[1]][new_position[0]].append(component)
+        
+        component.instance.set_position(new_position)

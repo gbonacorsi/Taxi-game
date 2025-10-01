@@ -68,7 +68,7 @@ MISSION = {
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
     "X": -360,
-    "Y": -370
+    "Y": -390
 }
 
 DISPLAY_SCORE = {

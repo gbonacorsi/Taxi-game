@@ -23,15 +23,12 @@ class TestMatrix:
             id=1,
             type=entity_type.player,
             instance=entity_type.player,  # Usa enum invece di classe
-            position=(0, 0),
-
         )
         
         self.client_record = ComponentRecord(
             id=2,
             type=entity_type.client,
             instance=entity_type.client,  # Usa enum invece di classe
-            position=(1, 1),
 
         )
         
@@ -39,7 +36,6 @@ class TestMatrix:
             id=3,
             type=entity_type.wall,
             instance=entity_type.wall,  # Usa enum invece di classe
-            position=(2, 2),
 
         )
 
@@ -71,7 +67,6 @@ class TestMatrixAddRecord:
             id=1, 
             type=entity_type.player, 
             instance=entity_type.player,
-            position=(2, 3),
 
         )
         

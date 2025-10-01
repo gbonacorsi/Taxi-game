@@ -1,7 +1,7 @@
 from Entities.maze_structure import WallEntity, ShelfEntity
 
 class Wall(WallEntity):
-    def __init__(self, entity_id:int, position = tuple[int, int], y: float = 0):
+    def __init__(self, entity_id:int, position = tuple[int, int]):
         super().__init__(entity_id=entity_id)
         self.position = position
     
@@ -12,7 +12,7 @@ class Wall(WallEntity):
         return self.position
 
 class Shelf(ShelfEntity):
-    def __init__(self, entity_id:int, position = tuple[int, int], y: float = 0):
+    def __init__(self, entity_id:int, position = tuple[int, int]):
         super().__init__(entity_id=entity_id)
         self.position = position
 

@@ -1,120 +1,92 @@
 import turtle
 from enum import Enum
 from Managers.world_manager import World
-from Configuration.data_structure import actions, entity_type, FieldDisplay, ComponentRecord
-from Configuration.setup import SPACE_BETWEEN_CELLS, DESTINATION, CLIENT, PLAYER, WALL, SHELF, BLINK_COLORS
-
-def action(action: actions, display_entity: object | None = None) -> actions | None:
-    if action == actions.up:
-        display_entity.sety(display_entity.ycor() + SPACE_BETWEEN_CELLS)
-        display_entity.y += 1
-        display_entity.goto(display_entity.x, display_entity.y)
-    elif action == actions.down:
-        display_entity.sety(display_entity.ycor() - SPACE_BETWEEN_CELLS)
-        display_entity.y -= 1
-        display_entity.goto(display_entity.x, display_entity.y)
-    elif action == actions.left:
-        display_entity.setx(display_entity.xcor() - SPACE_BETWEEN_CELLS)
-        display_entity.x -= 1
-        display_entity.goto(display_entity.x, display_entity.y)
-    elif action == actions.right:
-        display_entity.setx(display_entity.xcor() + SPACE_BETWEEN_CELLS)
-        display_entity.x += 1
-        display_entity.goto(display_entity.x, display_entity.y)
-        
-        return action
-
-def update_field_matrix(matrix, position: tuple[int, int], new_values: dict, entity_type: entity_type) -> None:
-    pass
-    #field_matrix: ComponentRecord = matrix.return_field_from_coordinate(position, entity_type)
-    #field_matrix.update_values(new_values)
+from Configuration.data_structure import ComponentRecord, entity_type
+from Configuration.setup import SPACE_BETWEEN_CELLS, MAZE
+from Presentation.Turtle.components_display import WallDisplay, ShelfDisplay, PlayerDisplay, ClientDisplay, DestinationDisplay
 
 class Display_game:
 
     def __init__(self, world: World) -> None:
         self.world = world
-        self.matrix = world.matrix
-        self.players=[]
-        self.clients=[]
-        self.destinations=[]
-        self.walls=[]
-        self.shelves=[]
-        self.players_id = 1
-        self.clients_id = 1
-        self.destinations_id = 1
-        self.walls_id = 1
-        self.shelves_id = 1
-    
-    def maze_render(self, initial_coor: tuple = (-240, 180), map: list[list[str]] = [[]], square_interval: int = SPACE_BETWEEN_CELLS) -> None:
+        self.players_display=[]
+        self.clients_display=[]
+        self.destinations_display=[]
+        self.walls_display=[]
+        self.shelves_display=[]
+        self.players_display_id = 1
+        self.clients_display_id = 1
+        self.destinations_display_id = 1
+        self.walls_display_id = 1
+        self.shelves_display_id = 1
 
+    def generate_components_display(self, id :int, component_list: list[None | ComponentRecord], 
+                                    display_list: list[None | ClientDisplay | DestinationDisplay | WallDisplay | ShelfDisplay | PlayerDisplay]) -> None:
 
-        y_range= len(map)
-        x_range= len(map[0])
+        for component in component_list:
+            component : ComponentRecord = component
+            component_position = component.instance.get_position()
+
+            if component.type == entity_type.wall:
+                component_display: WallDisplay = WallDisplay(component.get_values()["id"])
+            elif component.type == entity_type.player:
+                component_display: PlayerDisplay = PlayerDisplay(component.get_values()["id"])
+            elif component.type == entity_type.client:
+                component_display: ClientDisplay = ClientDisplay(component.get_values()["id"])
+            elif component.type == entity_type.destination:
+                component_display: DestinationDisplay = DestinationDisplay(component.get_values()["id"])
+            elif component.type == entity_type.shelf:
+                component_display: ShelfDisplay = ShelfDisplay(component.get_values()["id"])
+
+            x = MAZE["X"] + (component_position[0] * SPACE_BETWEEN_CELLS) + component_position[0]
+            y = MAZE["Y"]  - (component_position[1] * SPACE_BETWEEN_CELLS) - component_position[1]
+            component_display.goto(x, y)
+            record_display = [component_position, component_display]
+
+            display_list.append(record_display)
         
-        for y in range (y_range):
-            for x in range (x_range):
-                character = map[y][x]
-                screen_x = initial_coor[0] + (x * square_interval)
-                screen_y = initial_coor[1] - (y * square_interval)
+        id += 1
 
-                if character == "#":
-                    shelf = ShelfDisplay(self.shelves_id)
-                    
-                    field_display = FieldDisplay(self.shelves_id, entity_type.shelf, ShelfDisplay, (x,y))
-                    self.shelves.append(field_display)
-                    self.shelves_id += 1
-                    update_field_matrix(self.matrix, (x,y), {
-                        "grid_id": self.shelves_id
-                    }, entity_type.shelf)
-                    
-                    shelf.goto(screen_x, screen_y)
-                    shelf.stamp()
+    def maze_render(self, initial_coor: tuple = (MAZE["X"], MAZE["Y"]), map: list[list[str]] = [[]], square_interval: int = SPACE_BETWEEN_CELLS) -> None:
 
-                if character == "!":
-                    wall = WallDisplay(self.walls_id)
-                    self.walls.append(wall)
-                    self.walls_id += 1
-                    update_field_matrix(self.world, (x,y), {
-                        "grid_id": self.walls_id
-                    }, entity_type.wall)
-                    
-                    wall.goto(screen_x, screen_y)
-                    wall.stamp()
-                    
-                if character == "P":
-                    player = PlayerDisplay(self.players_id)
-                    self.players.append(player)
-                    self.players_id += 1
-                    update_field_matrix(self.matrix, (x,y), {
-                        "grid_id": self.players_id
-                    }, entity_type.player)
-                    
-                    player.goto(screen_x, screen_y)
-                    player.stamp()
-                    
-                if character == "C":
-                    client = ClientDisplay(self.clients_id)
-                    self.clients.append(client)
-                    self.clients_id += 1
-                    update_field_matrix(self.matrix, (x,y), {
-                        "grid_id": self.clients_id
-                    }, entity_type.client)
-                    
-                    client.goto(screen_x, screen_y)
-                    client.stamp()
-                    
-                if character == "X":
-                    destination = DestinationDisplay(self.destinations_id)
-                    self.destinations.append(destination)
-                    self.destinations_id += 1
-                    update_field_matrix(self.matrix, (x,y), {
-                        "grid_id": self.destinations_id
-                    }, entity_type.destination)
-                    
-                    destination.goto(screen_x, screen_y)
-                    destination.stamp()
-                    
+        self.generate_components_display(self.walls_display_id, self.world.walls, self.walls_display)
+        self.generate_components_display(self.shelves_display_id, self.world.shelves, self.shelves_display)
+        self.generate_components_display(self.players_display_id, self.world.players, self.players_display)
+        self.generate_components_display(self.clients_display_id, self.world.clients, self.clients_display)
+        self.generate_components_display(self.destinations_display_id, self.world.destinations, self.destinations_display)
+
     def change_blink(self) -> None:
-        for client in self.clients:
-            client.blink()
-            client.stamp()
+        print("Blink Change Triggered")
+        for client_display_record in self.clients_display:
+            client_display : ClientDisplay= client_display_record[1]
+            client_display.blink()
+            client_display.stamp()
+    
+    def move_record(self, old_position: tuple[int, int], new_position: tuple[int, int], 
+                    display_component: ClientDisplay | DestinationDisplay | WallDisplay | ShelfDisplay | PlayerDisplay) -> None:
+        
+        if isinstance(display_component, ClientDisplay):
+            index=self.clients_display.index(old_position)
+            display_component : ClientDisplay = self.clients_display.pop(index)[1]
+            self.clients_display.append([new_position, display_component])
+        elif isinstance(display_component, DestinationDisplay):
+            index=self.destinations_display.index(old_position)
+            display_component : DestinationDisplay = self.destinations_display.pop(index)[1]
+            self.destinations_display.append([new_position, display_component])
+        elif isinstance(display_component, WallDisplay):
+            index=self.walls_display.index(old_position)
+            display_component : WallDisplay = self.walls_display.pop(index)[1]
+            self.walls_display.append([new_position, display_component])
+        elif isinstance(display_component, ShelfDisplay):
+            index=self.shelves_display.index(old_position)
+            display_component : ShelfDisplay = self.shelves_display.pop(index)[1]
+            self.shelves_display.append([new_position, display_component])
+        elif isinstance(display_component, PlayerDisplay):
+            index=self.players_display.index(old_position)
+            display_component : PlayerDisplay = self.players_display.pop(index)[1]
+            self.players_display.append([new_position, display_component])
+
+        x = MAZE["X"] + (new_position[0] * SPACE_BETWEEN_CELLS) + new_position[0]
+        y = MAZE["Y"]  - (new_position[1] * SPACE_BETWEEN_CELLS) - new_position[1]
+        display_component.goto(x, y)
+        display_component.stamp()

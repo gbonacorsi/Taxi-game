@@ -16,20 +16,6 @@ class actions(Enum):
     pick = "pick"
     drop = "drop"
     
-class components(Enum):
-    Player = Player
-    Shelf = Shelf
-    Wall = Wall
-    Client = Client
-    Destination = Destination
-    
-class displays(Enum):
-    Player = PlayerDisplay
-    Client = ClientDisplay
-    Destination = DestinationDisplay
-    Wall = WallDisplay
-    Shelf = ShelfDisplay
-    
 class component_record_keys(Enum):
     id = "id"
     type = "type"
@@ -50,18 +36,16 @@ class entity_type(Enum):
     shelf = "shelf"
     
 class ComponentRecord:
-    def __init__(self, id: int, type: entity_type, instance: components, position = tuple[int, int]) -> None:
+    def __init__(self, id: int, type: entity_type, instance: None | Destination | Player | Client | Wall | Shelf) -> None:
         self.id = id
         self.type = type
         self.instance = instance
-        self.position = position
 
     def get_values(self) -> dict:
         return {
             "id": self.id,
             "type": self.type,
             "instance": self.instance,
-            "position": self.position
         }
 
     def update_values(self, new_values: dict) -> None:
@@ -69,23 +53,4 @@ class ComponentRecord:
             if hasattr(self, key):
                 setattr(self, key, value)
 
-class DisplayRecord:
-    def __init__(self, id: int, type: entity_type, instance: displays, blink_state: bool = False) -> None:
-        self.id = id
-        self.type = type
-        self.instance = instance
-        self.blink_state = blink_state
-
-    def get_values(self) -> dict:
-        return {
-            "id": self.id,
-            "type": self.type,
-            "instance": self.instance,
-            "blink_state": self.blink_state,
-        }
-
-    def update_values(self, new_values: dict) -> None:
-        for key, value in new_values.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
 
