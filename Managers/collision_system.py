@@ -17,23 +17,3 @@ def is_collision(new_position: tuple[float, float], matrix: Matrix) -> bool:
         is_collision.append(entity_type.destination)
 
     return is_collision
-
-def is_valide_movement(new_coordinate: tuple[float, float], matrix: Matrix) -> bool:
-    
-    valid_movement = True
-    is_collision_return = is_collision(new_coordinate, matrix)
-    
-    if len(is_collision_return) == 0:
-        valid_movement = True
-    if entity_type.wall in is_collision_return:
-        valid_movement = False
-    if entity_type.player in is_collision_return:
-        valid_movement = False
-    if entity_type.shelf in is_collision_return:
-        valid_movement = False
-    if entity_type.shelf in is_collision_return and entity_type.destination in is_collision_return:
-        valid_movement = True
-    if entity_type.shelf in is_collision_return and entity_type.client in is_collision_return:
-        valid_movement = True
-        
-    return valid_movement

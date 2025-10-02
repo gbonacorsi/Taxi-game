@@ -8,6 +8,20 @@ CLIENTS_NUMBER = 3
 RENDERING = True
 RENDER_ENGINE = "Turtle"  # Options: "Turtle"
 
+# PLAYER SETTINGS
+
+PLAYER_CAPACITY = {
+    "regular": {"height": 1, "width": 1},
+}
+PLAYER_DEFAULT_CAPACITY = "regular"
+
+# CLIENT SETTINGS
+
+CLIENT_VOLUME = {
+    "regular": {"height": 1, "width": 1},
+}
+CLIENT_DEFAULT_VOLUME = "regular"
+
 # LABEL LANGUAGE
 LANGUAGE = lang.ENG.value
 

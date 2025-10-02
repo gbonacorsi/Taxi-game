@@ -1,7 +1,7 @@
 from Configuration.data_structure import ComponentRecord, entity_type
 from Components.subject import Player
 from Managers.world_manager import World
-from Managers.collision_system import is_valide_movement
+from Managers.validation_system import is_valide_movement
 
 
 def move(world: World, component: ComponentRecord ,

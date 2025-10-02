@@ -3,6 +3,7 @@ from Presentation.Turtle.display_system import TurtleScreen
 from Configuration.setup import RENDER_ENGINE, RENDERING, BLINK_SPEED
 from Systems.Input_management import KeyBoard
 from Core.event_manager import EventManager
+from Core.game_manager import GameManager
 
 def turtle_client_blinking(screen: TurtleScreen):
     blink_counter = 0
@@ -26,9 +27,10 @@ class loop:
         if RENDERING==True and RENDER_ENGINE == "Turtle":
             
             event_manager = EventManager(self.world, self.screen)
-            event_manager.select_client(0)  # Select the first player by default
-            
-            keyboard = KeyBoard(self.world, event_manager)
+            game_manager = GameManager(self.world, self.screen, event_manager)
+            game_manager.init()
+
+            keyboard = KeyBoard(self.world, game_manager)
             keyboard.listen()
             
             try:
