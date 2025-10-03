@@ -52,7 +52,7 @@ class GameManager:
 
         return current_position, new_position, moved
 
-    def move_client(self, action: actions, client: Client) -> None:
+    def move_client(self, action: actions, client: ComponentRecord) -> None:
         
         movement_system_client = Movement2D(self.world, client)
         
@@ -103,7 +103,7 @@ class GameManager:
                 if moved_player == True and self.has_player_loaded_client(player)[0]:                    
                     for client in client_loaded:
                         self.event_manager.update_rendering(current_position_player, new_position_player, client)
-                
+
         elif actions.left == action:   
             # Move subjects
             current_position_player, new_position_player, moved_player = self.move_player(actions.left, player)
@@ -133,6 +133,7 @@ class GameManager:
                 if moved_player == True and self.has_player_loaded_client(player)[0]:                    
                     for client in client_loaded:
                         self.event_manager.update_rendering(current_position_player, new_position_player, client)
+
         
         elif actions.pick == action:
 
@@ -148,7 +149,7 @@ class GameManager:
             
             condition_dropping = drop_item(player.get_values()["instance"], player.get_values()["instance"].get_position(), self.world)
             
-            if RENDERING == True and self.has_player_loaded_client(player)[0] and condition_dropping:
+            if RENDERING == True and condition_dropping:
                 self.event_manager.remove_rendering_client_and_destination(player.get_values()["instance"].get_position())
             
             """ Status management

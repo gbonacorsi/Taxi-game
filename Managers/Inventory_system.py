@@ -7,21 +7,18 @@ from Managers.validation_system import is_valide_pick, is_valide_drop
 def pick_item(player: ComponentRecord, matrix: Matrix) -> None:
     
     position_pick = player.get_values()["instance"].get_position()
+    list_client_loaded = player.get_values()["instance"].get_client_loaded()
     list_components = matrix.return_position_records(position_pick)
-    client_data_list = matrix.filter(component_record_keys.type, entity_type.client, index=None, list_of_component=list_components)
+    client_data_list = matrix.filter(list_of_component=list_components, key=component_record_keys.type, criteria=entity_type.client)
     
     if client_data_list != None:
-        for position, client_record in client_data_list:
-            client_instance = client_record["instance"]
-            client_component : ComponentRecord = ComponentRecord(
-                id=client_record["id"],
-                type=client_record["type"],
-                instance=client_record["instance"]
-            )
+        for position, client_component in client_data_list:
+            if not (client_component in list_client_loaded):
+                client_instance = client_component.get_values()["instance"]
 
-            player : Player = player.get_values()["instance"]
-            if is_valide_pick(player, client_instance):
-                player.clients_loaded.append(client_component)
+                player : Player = player.get_values()["instance"]
+                if is_valide_pick(player, client_instance):
+                    player.clients_loaded.append(client_component)
 
 def drop_item(player: Player, player_position: tuple[int, int], world: World) -> None:
 
@@ -30,6 +27,7 @@ def drop_item(player: Player, player_position: tuple[int, int], world: World) ->
     list_clients_loaded = player.get_client_loaded()
     if condition_valid_drop and len(list_clients_loaded) > 0:
         for client in list_clients_loaded:
+            world.clients.remove(client)
             world.destinations.remove(destination)
             player.clients_loaded.remove(client)
             

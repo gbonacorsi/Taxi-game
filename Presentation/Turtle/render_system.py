@@ -56,7 +56,6 @@ class Display_game:
         self.generate_components_display(self.destinations_display_id, self.world.destinations, self.destinations_display)
 
     def change_blink(self) -> None:
-        print("Blink Change Triggered")
         for client_display_record in self.clients_display:
             client_display : ClientDisplay= client_display_record[1]
             client_display.blink()

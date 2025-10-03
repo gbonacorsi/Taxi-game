@@ -35,9 +35,10 @@ def is_valide_pick(player: Player, client: Client) -> bool:
     clients_load_width = 0
     
     if len(player_clients_loaded) != 0:
-        for player in player_clients_loaded:
-            clients_load_height += player.volume["height"]
-            clients_load_width += player.volume["width"]
+        for client_component in player_clients_loaded:
+            client_data = client_component.get_values()["instance"].get_volume()
+            clients_load_height += client_data["height"]
+            clients_load_width += client_data["width"]
 
         player_remain_capacity = (player_max_capacity["height"] * player_max_capacity["width"]) - (clients_load_height * clients_load_width)
     
@@ -58,12 +59,10 @@ def is_valide_drop(player_position: tuple[int, int], world: World) -> bool:
     list_destination = world.destinations
     list_components_at_position = world.matrix.return_position_records(player_position)
 
-    if len(list_components_at_position) > 0:
+    if list_components_at_position != None:
 
         for position, destination_data in list_components_at_position:
-            for destination in list_destination:
-                if destination.id == destination_data["id"] and \
-                   destination.type == destination_data["type"] :
-                    return destination, True
+            if destination_data in list_destination:
+                return destination_data, True
 
     return None, False
