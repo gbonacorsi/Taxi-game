@@ -8,8 +8,9 @@ def move(world: World, component: ComponentRecord ,
          current_position: tuple[float, float],
          new_position: tuple[float, float]) -> None:
 
+    component_type = component.get_values()["type"]
     moved = False
-    if is_valide_movement(new_position, world.matrix) == True:
+    if is_valide_movement(new_position, world.matrix, component_type) == True:
             world.matrix.move_record(current_position, new_position, component)
             moved = True
     

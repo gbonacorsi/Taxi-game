@@ -16,3 +16,7 @@ class EventManager:
     def update_rendering(self, current_position: tuple[float, float], new_position: tuple[float, float], component: ComponentRecord) -> None:
         if RENDERING == True and RENDER_ENGINE == "Turtle":
             self.display.move_display_record(current_position, new_position, component)
+    
+    def remove_rendering_client_and_destination(self, current_position: tuple[float, float]) -> None:
+        if RENDERING == True and RENDER_ENGINE == "Turtle":
+            self.display.remove_display_record(current_position)

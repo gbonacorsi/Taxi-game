@@ -1,6 +1,5 @@
 from operator import index
 import turtle
-from enum import Enum
 from Managers.world_manager import World
 from Configuration.data_structure import ComponentRecord, entity_type
 from Configuration.setup import SPACE_BETWEEN_CELLS, MAZE
@@ -105,3 +104,17 @@ class Display_game:
             index += 1
         
         return None
+    
+    def remove_display_record(self, position: tuple[int, int]) -> None:
+
+        index, display_component = self.return_from_position(position, self.clients_display)
+        if display_component != None:
+            self.clients_display.pop(index)
+            display_component.clear()
+            display_component.hideturtle()
+        
+        index, display_component = self.return_from_position(position, self.destinations_display)
+        if display_component != None:
+            self.destinations_display.pop(index)
+            display_component.clear()
+            display_component.hideturtle()

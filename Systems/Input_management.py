@@ -51,6 +51,12 @@ class KeyBoard:
     
     def go_right(self) -> None:
         self.game_manager.action(actions.right)
+    
+    def pick(self) -> None:
+        self.game_manager.action(actions.pick)
+    
+    def drop(self) -> None:
+        self.game_manager.action(actions.drop)
 
     def run(self) -> None:
         
@@ -58,6 +64,8 @@ class KeyBoard:
         turtle.onkey(self.go_down, "s")
         turtle.onkey(self.go_left, "a")
         turtle.onkey(self.go_right, "d")
+        turtle.onkey(self.pick, "p")
+        turtle.onkey(self.drop, "o")
 
         turtle.onkey(self.select_player_1, "1")
         turtle.onkey(self.select_player_2, "2")

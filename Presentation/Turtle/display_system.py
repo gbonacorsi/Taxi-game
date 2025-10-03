@@ -63,5 +63,6 @@ class TurtleScreen:
     
     def move_display_record(self, current_position: tuple[float, float], new_position: tuple[float, float], component: ComponentRecord) -> None:
         self.display_game.move_display_record(current_position, new_position, component)
-        
-        
+    
+    def remove_display_record(self, position: tuple[int, int]) -> None:
+        self.display_game.remove_display_record(position)

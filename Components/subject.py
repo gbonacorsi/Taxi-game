@@ -49,7 +49,6 @@ class Player(PlayerEntity):
         return 1
     
     def pick(self, client: Client) -> None:
-        self.clients_loaded.append(client)
         client.load()
     
     def drop(self, client: Client) -> None:

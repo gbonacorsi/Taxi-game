@@ -1,25 +1,27 @@
-from Configuration.data_structure import entity_type
+from Configuration.data_structure import ComponentRecord, entity_type
 from Utils.matrix_system import Matrix
+from Managers.world_manager import World
 from Managers.collision_system import is_collision
 from Components.subject import Player, Client
 
-def is_valide_movement(new_coordinate: tuple[float, float], matrix: Matrix) -> bool:
+def is_valide_movement(new_coordinate: tuple[float, float], matrix: Matrix, component_type: entity_type) -> bool:
     
     valid_movement = True
-    is_collision_return = is_collision(new_coordinate, matrix)
     
-    if len(is_collision_return) == 0:
-        valid_movement = True
-    if entity_type.wall in is_collision_return:
-        valid_movement = False
-    if entity_type.player in is_collision_return:
-        valid_movement = False
-    if entity_type.shelf in is_collision_return:
-        valid_movement = False
-    if entity_type.shelf in is_collision_return and entity_type.destination in is_collision_return:
-        valid_movement = True
-    if entity_type.shelf in is_collision_return and entity_type.client in is_collision_return:
-        valid_movement = True
+    if component_type == entity_type.player:
+        is_collision_return = is_collision(new_coordinate, matrix)
+        
+        if len(is_collision_return) != 0:
+            if entity_type.wall in is_collision_return:
+                valid_movement = False
+            elif entity_type.player in is_collision_return:
+                valid_movement = False
+            elif entity_type.shelf in is_collision_return and entity_type.destination in is_collision_return:
+                valid_movement = True
+            elif entity_type.shelf in is_collision_return and entity_type.client in is_collision_return:
+                valid_movement = True
+            elif entity_type.shelf in is_collision_return:
+                valid_movement = False
         
     return valid_movement
 
@@ -50,3 +52,18 @@ def is_valide_pick(player: Player, client: Client) -> bool:
         return True
     else:
         return False
+
+def is_valide_drop(player_position: tuple[int, int], world: World) -> bool:
+
+    list_destination = world.destinations
+    list_components_at_position = world.matrix.return_position_records(player_position)
+
+    if len(list_components_at_position) > 0:
+
+        for position, destination_data in list_components_at_position:
+            for destination in list_destination:
+                if destination.id == destination_data["id"] and \
+                   destination.type == destination_data["type"] :
+                    return destination, True
+
+    return None, False
