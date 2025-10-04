@@ -10,6 +10,14 @@ class DestinationDisplay(turtle.Turtle):
         self.color(destination_parameters["color"])
         self.penup()
         self.speed(destination_parameters["speed"])
+        self.blink_state = False
+    
+    def blink(self) -> None:
+        self.blink_state = not self.blink_state
+        if self.blink_state:
+            self.color(BLINK_COLORS[0])
+        else:
+            self.color(BLINK_COLORS[1])
 
 class ClientDisplay(turtle.Turtle):
     def __init__(self, grid_id: int, client_parameters: dict = {"shape": CLIENT["SHAPE"], "color": CLIENT["COLOR"], "speed": CLIENT["SPEED"]}) -> None:

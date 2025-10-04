@@ -65,7 +65,18 @@ class Display_game:
             client_display : ClientDisplay= client_display_record[1]
             client_display.blink()
             client_display.stamp()
-
+        
+        clients_components = self.world.clients
+        for client in clients_components:
+            loaded = client.get_values()["instance"].loaded
+            if loaded:
+                destination = client.get_values()["instance"].destination
+                for destination_display_record in self.destinations_display:
+                    destination_display : DestinationDisplay = destination_display_record[1]
+                    if destination_display.grid_id == destination.get_values()["id"]:
+                        destination_display.blink()
+                        destination_display.stamp()
+            
     def move_display_record(self, old_position: tuple[int, int], new_position: tuple[int, int],
                     component: ComponentRecord) -> None:
         

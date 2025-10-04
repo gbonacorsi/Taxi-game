@@ -19,7 +19,7 @@ class EventManager:
         self.state_manager : State_manager = State_manager()
         self.list_client_loaded : list[ComponentRecord] = []
 
-    def turtle_client_blinking(self, screen: TurtleScreen) -> None:
+    def turtle_blinking(self, screen: TurtleScreen) -> None:
 
         if self.blink_counter >= BLINK_SPEED:
             self.blink_counter = 0

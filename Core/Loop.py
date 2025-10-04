@@ -22,17 +22,17 @@ class loop:
             keyboard = KeyBoard(self.world, game_manager)
             keyboard.listen()
             
-            #try:
-                
-            while True:
+            try:
+                    
+                while True:
 
-                event_manager.turtle_client_blinking(self.screen)
-                self.screen.update()
-                keyboard.run()
-                
-                if event_manager.all_destinations_reached():
-                    game_manager.level_completed()
+                    event_manager.turtle_blinking(self.screen)
+                    self.screen.update()
+                    keyboard.run()
+                    
+                    if event_manager.all_destinations_reached():
+                        game_manager.level_completed()
 
-            #finally:
-            #    print("Game closed.")
-            #    exit()
+            finally:
+                print("Game closed.")
+                exit()
