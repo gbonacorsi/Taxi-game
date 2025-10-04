@@ -12,6 +12,9 @@ class Destination(DestinationEntity):
     def get_position(self) -> tuple[int, int]:
         return self.position
     
+    def get_arrived_status(self) -> bool:
+        return self.arrived
+    
     def arrived(self) -> None:
         self.arrived = True
     

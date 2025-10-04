@@ -4,7 +4,7 @@ from Asset.labels import lang
 # GAME SETTINGS
 MAP_INDEX = 0
 PLAYERS_NUMBER = 1     # when RENDER_TURTLE = True -> max 5 players
-CLIENTS_NUMBER = 3     
+CLIENTS_NUMBER = 1     
 RENDERING = True
 RENDER_ENGINE = "Turtle"  # Options: "Turtle"
 
@@ -62,7 +62,7 @@ CONTROL = {
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
     "X": -360,
-    "Y": 240
+    "Y": 260
 }
 
 ELEMENT = {
@@ -72,7 +72,7 @@ ELEMENT = {
     "FONT_TYPE": "normal",
     "FONT_COLOR": "white",
     "X": -360,
-    "Y": 210
+    "Y": 240
 }
 
 MISSION = {
@@ -91,23 +91,13 @@ DISPLAY_SCORE = {
     "FONT_SIZE": 18,
     "FONT_TYPE": "bold",
     "FONT_COLOR": "white",
-    "X": 120,
+    "X": 140,
     "Y": 340
-}
-
-DISPLAY_DISTANCE = {
-    "FONT_NAME": "Arial",
-    "FONT_ALIGN": "left",
-    "FONT_SIZE": 14,
-    "FONT_TYPE": "normal",
-    "FONT_COLOR": "white",
-    "X": 120,
-    "Y": 290
 }
 
 MAZE = {
     "X": -280,
-    "Y": 180
+    "Y": 200
 }
 
 PLAYER = {

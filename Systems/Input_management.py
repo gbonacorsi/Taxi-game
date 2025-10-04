@@ -60,12 +60,16 @@ class KeyBoard:
 
     def run(self) -> None:
         
-        turtle.onkey(self.go_up, "w")
-        turtle.onkey(self.go_down, "s")
-        turtle.onkey(self.go_left, "a")
-        turtle.onkey(self.go_right, "d")
+        turtle.onkey(self.go_up, "Up")
+        
+        turtle.onkey(self.go_down, "Down")
+        turtle.onkey(self.go_left, "Left")
+        turtle.onkey(self.go_right, "Right")
+
         turtle.onkey(self.pick, "p")
-        turtle.onkey(self.drop, "o")
+        turtle.onkey(self.pick, "P")
+        turtle.onkey(self.drop, "d")
+        turtle.onkey(self.drop, "D")
 
         turtle.onkey(self.select_player_1, "1")
         turtle.onkey(self.select_player_2, "2")

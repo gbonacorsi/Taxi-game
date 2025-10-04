@@ -19,26 +19,29 @@ def pick_item(player: ComponentRecord, matrix: Matrix) -> None:
                 player : Player = player.get_values()["instance"]
                 if is_valide_pick(player, client_instance):
                     player.clients_loaded.append(client_component)
+    
+    return list_client_loaded
 
-def drop_item(player: Player, player_position: tuple[int, int], world: World) -> None:
+def drop_item(player: Player, player_position: tuple[int, int], world: World) -> bool | ComponentRecord | None:
 
     destination, condition_valid_drop = is_valide_drop(player_position, world)
     
     list_clients_loaded = player.get_client_loaded()
     if condition_valid_drop and len(list_clients_loaded) > 0:
-        for client in list_clients_loaded:
-            world.clients.remove(client)
-            world.destinations.remove(destination)
+        for client in list_clients_loaded:\
             player.clients_loaded.remove(client)
+
+            # world.clients.remove(client)
+            # world.destinations.remove(destination)
             
-            world.matrix.remove_record(player_position, client)
-            world.matrix.remove_record(player_position, destination)
+            #world.matrix.remove_record(player_position, client)
+            # world.matrix.remove_record(player_position, destination)
     
     elif not condition_valid_drop and len(list_clients_loaded) > 0:
         for client in list_clients_loaded:
             player.clients_loaded.remove(client)
     
-    return condition_valid_drop
+    return condition_valid_drop, destination
         
             
         

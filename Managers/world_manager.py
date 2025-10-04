@@ -32,7 +32,7 @@ class World:
         
         return (x,y)
 
-    def generate_random_components(self, number: int, component_type: entity_type) -> None:
+    def generate_random_components(self, component_type: entity_type, number: int = CLIENTS_NUMBER, ) -> None:
 
         i = 0
         while i < number:
@@ -70,6 +70,12 @@ class World:
             
             i +=1
 
+    def link_clients_destination(self) -> None:
+        for client_record in self.clients:
+            client : Client = client_record.get_values()["instance"]
+            destination_record = self.destinations[randint(0, len(self.destinations)-1)]
+            client.destination = destination_record
+
     def generate_new_world(self) -> None:
 
         self.map = maps[MAP_INDEX]
@@ -95,21 +101,15 @@ class World:
                         self.walls.append(record)
                         self.walls_id += 1                                    
                    
-        self.generate_random_components(CLIENTS_NUMBER, entity_type.client)
-        self.generate_random_components(PLAYERS_NUMBER, entity_type.player)
-        self.generate_random_components(CLIENTS_NUMBER, entity_type.destination)
+        self.generate_random_components(entity_type.client)
+        self.generate_random_components(entity_type.player, PLAYERS_NUMBER)
+        self.generate_random_components(entity_type.destination)
+        
+        self.link_clients_destination()
 
     def reset(self) -> None:
 
-        self.matrix = Matrix(len(maps[MAP_INDEX]), len(maps[MAP_INDEX][0]))
-        self.players: list[ComponentRecord] = []
         self.clients: list[ComponentRecord] = []
         self.destinations: list[ComponentRecord] = []
-        self.walls: list[ComponentRecord] = []
-        self.shelves: list[ComponentRecord] = []
-        self.players_id = 1
         self.clients_id = 1
         self.destinations_id = 1
-        self.walls_id = 1
-        self.shelves_id = 1
-        self.generate_new_world()

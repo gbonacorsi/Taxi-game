@@ -54,6 +54,11 @@ class Display_game:
         self.generate_components_display(self.players_display_id, self.world.players, self.players_display)
         self.generate_components_display(self.clients_display_id, self.world.clients, self.clients_display)
         self.generate_components_display(self.destinations_display_id, self.world.destinations, self.destinations_display)
+    
+    def maze_reset(self) -> None:
+
+        self.generate_components_display(self.clients_display_id, self.world.clients, self.clients_display)
+        self.generate_components_display(self.destinations_display_id, self.world.destinations, self.destinations_display)
 
     def change_blink(self) -> None:
         for client_display_record in self.clients_display:

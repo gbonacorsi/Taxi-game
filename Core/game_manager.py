@@ -1,10 +1,7 @@
 from Configuration.data_structure import actions, ComponentRecord
 from Configuration.setup import RENDERING
-from Components.subject import Player, Client
-from Managers import movement_system
+from Components.subject import Player
 from Managers.world_manager import World
-from Managers.movement_system import Movement2D
-from Managers.Inventory_system import pick_item, drop_item
 from Presentation.Turtle.display_system import TurtleScreen
 from Core.event_manager import EventManager
 
@@ -26,7 +23,6 @@ class GameManager:
         if player is None:
             player = self.player
             
-            
         client_loaded = player.get_values()["instance"].clients_loaded
         criteri_client_loaded = True if len(client_loaded) > 0 else False
 
@@ -34,37 +30,6 @@ class GameManager:
             return True, client_loaded
         else:
             return False, client_loaded
-
-    def move_player(self, action: actions, player: Player = None) -> None:
-        if player is None:
-            player = self.player
-
-        movement_system_player = Movement2D(self.world, player)
-        
-        if actions.up == action:
-            current_position, new_position, moved = movement_system_player.go_up()
-        elif actions.down == action:
-            current_position, new_position, moved = movement_system_player.go_down()
-        elif actions.left == action:   
-            current_position, new_position, moved = movement_system_player.go_left()
-        elif actions.right == action:
-            current_position, new_position, moved = movement_system_player.go_right()
-
-        return current_position, new_position, moved
-
-    def move_client(self, action: actions, client: ComponentRecord) -> None:
-        
-        movement_system_client = Movement2D(self.world, client)
-        
-        if actions.up == action:
-            current_position, new_position, moved = movement_system_client.go_up()
-        elif actions.down == action:
-            current_position, new_position, moved = movement_system_client.go_down()
-        elif actions.left == action:   
-            current_position, new_position, moved = movement_system_client.go_left()
-        elif actions.right == action:
-            current_position, new_position, moved = movement_system_client.go_right()
-
 
     def action(self, action: actions, player: Player = None) -> None:
 
@@ -75,10 +40,10 @@ class GameManager:
 
         if actions.up == action:
             # Move subjects
-            current_position_player, new_position_player, moved_player = self.move_player(actions.up, player)
+            current_position_player, new_position_player, moved_player = self.event_manager.move_player(self.world, actions.up, player)
             if moved_player == True and self.has_player_loaded_client(player)[0]:
                 for client in client_loaded:
-                    self.move_client(actions.up, client)
+                    self.event_manager.move_client(self.world, actions.up, client)
 
             # Update rendering
             if moved_player == True and RENDERING == True:
@@ -91,10 +56,10 @@ class GameManager:
                       
         elif actions.down == action:
             # Move subjects
-            current_position_player, new_position_player, moved_player = self.move_player(actions.down, player)
+            current_position_player, new_position_player, moved_player = self.event_manager.move_player(self.world, actions.down, player)
             if moved_player == True and self.has_player_loaded_client(player)[0]:
                 for client in client_loaded:
-                    self.move_client(actions.down, client)
+                    self.event_manager.move_client(self.world, actions.down, client)
 
             # Update rendering
             if moved_player == True and RENDERING == True:
@@ -106,10 +71,10 @@ class GameManager:
 
         elif actions.left == action:   
             # Move subjects
-            current_position_player, new_position_player, moved_player = self.move_player(actions.left, player)
+            current_position_player, new_position_player, moved_player = self.event_manager.move_player(self.world, actions.left, player)
             if moved_player == True and self.has_player_loaded_client(player)[0]:
                 for client in client_loaded:
-                    self.move_client(actions.left, client)
+                    self.event_manager.move_client(self.world, actions.left, client)
 
             # Update rendering
             if moved_player == True and RENDERING == True:
@@ -121,10 +86,10 @@ class GameManager:
 
         elif actions.right == action:
             # Move subjects
-            current_position_player, new_position_player, moved_player = self.move_player(actions.right, player)
+            current_position_player, new_position_player, moved_player = self.event_manager.move_player(self.world, actions.right, player)
             if moved_player == True and self.has_player_loaded_client(player)[0]:
                 for client in client_loaded:
-                    self.move_client(actions.right, client)
+                    self.event_manager.move_client(self.world, actions.right, client)
 
             # Update rendering
             if moved_player == True and RENDERING == True:
@@ -137,23 +102,22 @@ class GameManager:
         
         elif actions.pick == action:
 
-            clients_list = pick_item(player, self.world.matrix)
-            
-            """ Status management
-            if len(clients_list)>0:
-                for client in clients_list:
-                    player.pick(client)
-            """
+            self.event_manager.pick_client(player, self.world)
         
         elif actions.drop == action:
             
-            condition_dropping = drop_item(player.get_values()["instance"], player.get_values()["instance"].get_position(), self.world)
-            
+            condition_dropping = self.event_manager.drop_client(player, self.world)
+
+            if RENDERING == True:
+                self.event_manager.update_scoring()
+                
             if RENDERING == True and condition_dropping:
                 self.event_manager.remove_rendering_client_and_destination(player.get_values()["instance"].get_position())
-            
-            """ Status management
-            if has_client_loaded:
-                for client in client_loaded:
-                    drop_item(player, client)
-            """
+                self.event_manager.update_scoring()
+    
+    def level_completed(self):
+        print("Level completed!")
+        self.event_manager.reset_world()
+        
+        if RENDERING == True:
+            self.event_manager.reset_rendering()

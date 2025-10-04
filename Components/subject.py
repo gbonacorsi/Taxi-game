@@ -1,12 +1,15 @@
 from Entities.subject import ClientEntity, PlayerEntity
 from Configuration.setup import PLAYER_CAPACITY, PLAYER_DEFAULT_CAPACITY, CLIENT_VOLUME, CLIENT_DEFAULT_VOLUME
-
+    
 class Client(ClientEntity):
-    def __init__(self, entity_id, position: tuple[ int, int], client_volume: dict = CLIENT_VOLUME[CLIENT_DEFAULT_VOLUME]):
+    def __init__(self, entity_id, position: tuple[ int, int], destination: object | None = None,
+                 client_volume: dict = CLIENT_VOLUME[CLIENT_DEFAULT_VOLUME]):
+        
         super().__init__(entity_id=entity_id)
         self.position=position
         self.client_volume = client_volume
         self.loaded = False
+        self.destination = destination
         
     def set_position(self,position: tuple[ int, int]) -> None:
         self.position = position
@@ -28,6 +31,7 @@ class Player(PlayerEntity):
         super().__init__(entity_id=entity_id)
         self.position=position
         self.clients_loaded = []
+        self.clients_loaded_state = False
         self.max_player_capacity = max_clients_capacity
     
     def set_position(self,position: tuple[ int, int]) -> None:

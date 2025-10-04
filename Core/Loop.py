@@ -10,7 +10,6 @@ class loop:
     def __init__ (self, world: World, screen : TurtleScreen | None = None) -> None:
         self.world = world
         self.screen = screen
-        self.is_level_completed : bool = False
 
     def run (self):
         
@@ -23,14 +22,17 @@ class loop:
             keyboard = KeyBoard(self.world, game_manager)
             keyboard.listen()
             
-            try:
+            #try:
                 
-                while True:
+            while True:
 
-                    event_manager.turtle_client_blinking(self.screen)
-                    self.screen.update()
-                    keyboard.run()
+                event_manager.turtle_client_blinking(self.screen)
+                self.screen.update()
+                keyboard.run()
+                
+                if event_manager.all_destinations_reached():
+                    game_manager.level_completed()
 
-            finally:
-                print("Game closed.")
-                exit()
+            #finally:
+            #    print("Game closed.")
+            #    exit()
