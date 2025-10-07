@@ -11,7 +11,7 @@ class GameManager:
         self.world: World = world
         self.event_manager: EventManager = event_manager
         self.player : Player | None = None
-
+        
     def select_client(self, index: int = 0) -> None:
         self.player = self.world.players[index]
     

@@ -6,6 +6,7 @@ from Configuration.data_structure import actions
 
 
 communication_actions = {
+    0: actions.wait,
     1: actions.up,
     2: actions.down,
     3: actions.left,
@@ -41,6 +42,12 @@ class request_type(Enum):
     action = "action"
     
 def generate_auth_key(length: int = 32) -> str:
+    alphabet = string.ascii_letters + string.digits
+    key = ''.join(secrets.choice(alphabet) for _ in range(length))
+
+    return key
+
+def generate_session_id(length: int = 10) -> str:
     alphabet = string.ascii_letters + string.digits
     key = ''.join(secrets.choice(alphabet) for _ in range(length))
 

@@ -10,6 +10,7 @@ from Utils.exeption_system import ActionError
 #   Accross the project the position is a tuple (x, y). You will find often express like position: tuple[int, int]
 
 class actions(Enum):
+    wait = "wait"
     up = "up"
     down = "down"
     left = "left"

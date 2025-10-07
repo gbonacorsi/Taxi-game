@@ -1,8 +1,10 @@
 import asyncio
 import websockets
 from Core.game_manager import GameManager
-from Network.data_structure import CommunicationData, request_type, comunication_status, data_model
-from Configuration.setup import PLAYERS_NUMBER,
+from Network.data_structure import CommunicationData, generate_session_id, request_type, communication_status, data_model, generate_auth_key
+from Configuration.setup import PLAYERS_NUMBER
+from Components.subject import Client
+
 
 class GameServer:
 
@@ -10,6 +12,18 @@ class GameServer:
         self.game_manager = game_manager
         self.session_id = 0
         self.auth_key_list = []
+        
+        self.new_observatio: tuple[int, int] = (0, 0)
+        self.reward: int = 0
+        self.terminated: bool = False
+        self.truncated: bool = False
+        self.info: str = ""
+
+    async def collect_feedback(self, client: Client):
+        self.new_observatio = client.get_values()["position"]
+        self.reward: int = self.game_manager.event_manager.scoring_system.get_score()
+        
+        
 
     async def attribution_key(self, session_id, websocket):
 
@@ -17,19 +31,17 @@ class GameServer:
         
         if key_number < PLAYERS_NUMBER:
             clients_components = self.game_manager.world.clients[key_number]
-            new_key = CommunicationData().generate_auth_key()
+            new_key = generate_auth_key()
             record = (clients_components, new_key)
             self.auth_key_list.append(record)
             print("Client connected, generating auth key...")
 
             message_201 = CommunicationData(
                 auth_key=new_key,
-                session_id=session_id,
+                session_id=self.session_id,
                 request_type=request_type.request_key.value,
                 status=201
             )
-
-            message_201 = CommunicationData()
 
             await websocket.send(message_201.get_json())
             print(f"Client associated and auth key allocated: {new_key}")
@@ -37,50 +49,45 @@ class GameServer:
         else:
             
             message_501 = CommunicationData(
-                auth_key=new_key,
                 session_id=session_id,
-                request_type=request_type.request_key.v
-                alue,
+                request_type=request_type.request_key.value,
                 status=501
             )
 
             await websocket.send(message_501.get_json())
-            print(f"Client associated and auth key allocated: {new_key}")
+            print(f"Client associated key failed: max clients reached")
+    
+    async def action(self, websocket, data : CommunicationData):
+        print(f"Message received: {data}")
+
+        action = data.action_number
+
+        print(f"Action received: {action}")
+        self.game_manager.action(action)
         
+        
+        
+        await websocket.send(f"Action {action} executed")
+
 
     async def listenner(self, websocket):
         print("Server started, waiting for messages...")
         message = await websocket.recv()
 
         data = CommunicationData()
-        result = data.read_json(message)
 
-        if result:
-            print("Message processed successfully.")
+        if data:
+            print("Message received and processing...")
             if data.request_type== request_type.request_key.value:
                 await self.attribution_key(data.session_id, websocket)
+            elif data.request_type == request_type.action.value:
+                await self.action(websocket, data)
         else:
             print("Failed to process message.")
-
-    """
-    async def action(self, websocket):
-        print("Server started, waiting for actions...")
-        message = await websocket.recv()
-        print(f"Message received: {message}")
-
-        is_valid_action, action_enum = is_action_valid(int(message))
-
-        if is_valid_action:
-            print(f"Action received: {action_enum.value}")
-            self.game_manager.action(action_enum)
-            await websocket.send(f"Action {action_enum.value} executed")
-            
-        else:
-            print(f"Invalid action")
-    """
     
     async def main(self):
-        self.session_id += 1
+        self.session_id = generate_session_id(10)
+        print(f"Session ID: {self.session_id}")
         async with websockets.serve(self.listenner, "localhost", 8765):
             await asyncio.Future() 
             
