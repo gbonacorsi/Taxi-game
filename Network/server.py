@@ -20,8 +20,10 @@ class GameServer:
         self.info: str = ""
 
     async def collect_feedback(self, client: Client):
-        self.new_observatio = client.get_values()["position"]
         self.reward: int = self.game_manager.event_manager.scoring_system.get_score()
+        
+        
+        
         
         
 
@@ -63,7 +65,7 @@ class GameServer:
         action = data.action_number
 
         print(f"Action received: {action}")
-        self.game_manager.action(action)
+        self.terminated = self.game_manager.action(action)
         
         
         

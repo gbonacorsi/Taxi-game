@@ -25,6 +25,14 @@ class Client(ClientEntity):
     
     def unload(self) -> None:
         self.loaded = False
+        
+    def get_observation(self) -> dict:
+        return {
+            "id": self.entity_id,
+            "position": self.position,
+            "volume": self.client_volume,
+            "loaded": self.loaded
+        }
 
 class Player(PlayerEntity):
     def __init__(self, entity_id:int, position: tuple[ int, int], max_clients_capacity: dict = PLAYER_CAPACITY[PLAYER_DEFAULT_CAPACITY]):
@@ -59,3 +67,13 @@ class Player(PlayerEntity):
         if client in self.clients_loaded:
             self.clients_loaded.remove(client)
             client.unload()
+            
+    def get_observation(self) -> dict:
+        return {
+            "id": self.entity_id,
+            "position": self.position,
+            "volume": self.max_player_capacity,
+            "clients_loaded": [client.get_observation()["id"] for client in self.clients_loaded],
+            "clients_loaded_state": self.clients_loaded_state
+        }
+

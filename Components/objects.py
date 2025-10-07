@@ -20,3 +20,10 @@ class Destination(DestinationEntity):
     
     def clear_arrival(self) -> None:
         self.arrived = False
+    
+    def get_observation(self) -> dict:
+        return {
+            "id": self.entity_id,
+            "position": self.position,
+            "arrived": self.arrived,
+        }
