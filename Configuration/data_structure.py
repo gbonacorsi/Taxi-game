@@ -4,6 +4,7 @@ from Components.objects import Destination
 from Components.subject import Player, Client
 from Components.maze_components import Wall, Shelf
 from Presentation.Turtle.components_display import PlayerDisplay, ClientDisplay, DestinationDisplay, WallDisplay, ShelfDisplay
+from Utils.exeption_system import ActionError
 
 # Note: 
 #   Accross the project the position is a tuple (x, y). You will find often express like position: tuple[int, int]
@@ -15,7 +16,14 @@ class actions(Enum):
     right = "right"
     pick = "pick"
     drop = "drop"
-    
+
+def is_valid_action_name(action_name: str) -> bool:
+    try:
+        _ = actions[action_name.lower()]
+        return True
+    except ActionError:
+        return False
+
 class component_record_keys(Enum):
     id = "id"
     type = "type"

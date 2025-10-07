@@ -1,12 +1,18 @@
 # Import reale perché usiamo lang a runtime
 from Asset.labels import lang
+from enum import Enum
 
+class input_type(Enum):
+    KEYBOARD = "keyboard"
+    SERVER = "server"
+    
 # GAME SETTINGS
 MAP_INDEX = 0
-PLAYERS_NUMBER = 1     # when RENDER_TURTLE = True -> max 5 players
-CLIENTS_NUMBER = 1     
+PLAYERS_NUMBER = 2     # when RENDER_TURTLE = True -> max 5 players
+CLIENTS_NUMBER = 4
+INPUT_TYPE = input_type.SERVER    
 RENDERING = True
-RENDER_ENGINE = "Turtle"  # Options: "Turtle"
+RENDER_ENGINE = "Turtle" 
 
 # PLAYER SETTINGS
 
