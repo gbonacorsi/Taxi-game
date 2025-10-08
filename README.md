@@ -11,6 +11,10 @@ A sophisticated agent pickup and delivery simulation built with Python and Turtl
 - **🎨 Rich Graphics**: Turtle-based rendering with animation support and visual effects
 - **🔧 Configuration System**: Flexible settings management with environment-specific configs
 
+### 🎮 Gameplay Preview
+
+![Demo](https://github.com/gbonacorsi/Taxi-game/assets/12345/abc123-demo.gif)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -134,10 +138,9 @@ The game supports extensive customization through configuration files:
 # Configuration/setup.py
 
 # GAME SETTINGS
-MAP_INDEX = 0
-PLAYERS_NUMBER = 2     # when Input_Type = KEYBOARD -> max 5 players
+
 CLIENTS_NUMBER = 1
-INPUT_TYPE = input_type.SERVER    
+INPUT_TYPE = input_type.KEYBOARD            # input_type.KEYBOARD or input_type.SERVER    
 RENDERING = True
 RENDER_ENGINE = "Turtle" 
 
@@ -152,7 +155,7 @@ RENDER_ENGINE = "Turtle"
 ### Acknowledgments
 - Built with Python's robust ecosystem
 - Inspired by classic taxi dispatch optimization problems
-- Designed for reinforcement learning research and education
+- Designed for reinforcement learning research
 - Community-driven development and continuous improvement
 
 ---
