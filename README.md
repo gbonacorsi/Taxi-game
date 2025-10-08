@@ -11,9 +11,12 @@ A sophisticated agent pickup and delivery simulation built with Python and Turtl
 - **🎨 Rich Graphics**: Turtle-based rendering with animation support and visual effects
 - **🔧 Configuration System**: Flexible settings management with environment-specific configs
 
-### 🎮 Gameplay Preview
-
-![Taxi Game Demo](https://github.com/gbonacorsi/Taxi-game/blob/main/Asset/demo.gif)
+<div align="center">
+  <img src="https://github.com/gbonacorsi/Taxi-game/blob/main/Asset/demo.gif" 
+       alt="Taxi Game Demo" 
+       width="600" 
+       height="650"/>
+</div>
 
 ## 🚀 Quick Start
 
