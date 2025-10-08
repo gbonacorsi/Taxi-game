@@ -8,8 +8,8 @@ class input_type(Enum):
     
 # GAME SETTINGS
 MAP_INDEX = 0
-PLAYERS_NUMBER = 2     # when RENDER_TURTLE = True -> max 5 players
-CLIENTS_NUMBER = 4
+PLAYERS_NUMBER = 2     # when Input_Type = KEYBOARD -> max 5 players
+CLIENTS_NUMBER = 1
 INPUT_TYPE = input_type.SERVER    
 RENDERING = True
 RENDER_ENGINE = "Turtle" 

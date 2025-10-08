@@ -43,7 +43,7 @@ class GameManager:
         if action.wait == action:
             pass
 
-        if actions.up == action:
+        elif actions.up == action:
             # Move subjects
             current_position_player, new_position_player, moved_player = self.event_manager.move_player(self.world, actions.up, player)
             if moved_player == True and self.has_player_loaded_client(player)[0]:
@@ -120,9 +120,9 @@ class GameManager:
                 self.event_manager.remove_rendering_client_and_destination(player.get_values()["instance"].get_position())
                 self.event_manager.update_scoring()
         
-                        # Check end of level
+
         if self.event_manager.all_destinations_reached():
-            self.game_manager.level_completed()
+            self.level_completed()
             is_level_completed = True
             
         return is_level_completed
