@@ -97,3 +97,4 @@ class Matrix:
             self.matrix[new_position[1]][new_position[0]].append(component)
         
         component.instance.set_position(new_position)
+        

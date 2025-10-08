@@ -28,14 +28,13 @@ def drop_item(player: Player, player_position: tuple[int, int], world: World) ->
     
     list_clients_loaded = player.get_client_loaded()
     if condition_valid_drop and len(list_clients_loaded) > 0:
-        for client in list_clients_loaded:\
+        for client in list_clients_loaded:
             player.clients_loaded.remove(client)
-
-            # world.clients.remove(client)
-            # world.destinations.remove(destination)
-            
-            #world.matrix.remove_record(player_position, client)
-            # world.matrix.remove_record(player_position, destination)
+            world.matrix.remove_record(player_position, client)
+            world.matrix.remove_record(player_position, destination)
+    
+            #world.clients.remove(client)
+            #world.destinations.remove(destination)
     
     elif not condition_valid_drop and len(list_clients_loaded) > 0:
         for client in list_clients_loaded:

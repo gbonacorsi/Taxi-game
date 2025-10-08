@@ -23,5 +23,9 @@ class Engine:
             loop_instance = loop(world=self.world, screen=game_screen)
             loop_instance.run()
         
+        if RENDERING==False:
+            
+            loop_instance = loop(world=self.world)
+            loop_instance.run()
 
 

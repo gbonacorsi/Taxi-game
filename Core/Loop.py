@@ -4,7 +4,7 @@ from Configuration.setup import RENDER_ENGINE, RENDERING, INPUT_TYPE
 from Systems.Input_management import KeyBoard
 from Core.event_manager import EventManager
 from Core.game_manager import GameManager
-from Network.server import GameServer
+from Network.server.server_manager import GameServer
 
 class loop:
 
@@ -45,9 +45,6 @@ class loop:
                 if condition_input_server:
                     self.server.run()
 
-                # Check end of level
-                if self.event_manager.all_destinations_reached():
-                    self.game_manager.level_completed()
 
         finally:
             print("Game closed.")

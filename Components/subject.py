@@ -28,7 +28,6 @@ class Client(ClientEntity):
         
     def get_observation(self) -> dict:
         return {
-            "id": self.entity_id,
             "position": self.position,
             "volume": self.client_volume,
             "loaded": self.loaded
@@ -70,10 +69,9 @@ class Player(PlayerEntity):
             
     def get_observation(self) -> dict:
         return {
-            "id": self.entity_id,
             "position": self.position,
             "volume": self.max_player_capacity,
-            "clients_loaded": [client.get_observation()["id"] for client in self.clients_loaded],
+            #"clients_loaded": [client.instanceget_observation()["id"] for client in self.clients_loaded],
             "clients_loaded_state": self.clients_loaded_state
         }
 

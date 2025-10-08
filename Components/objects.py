@@ -23,7 +23,6 @@ class Destination(DestinationEntity):
     
     def get_observation(self) -> dict:
         return {
-            "id": self.entity_id,
             "position": self.position,
             "arrived": self.arrived,
         }

@@ -16,29 +16,32 @@ communication_actions = {
 }
 
 communication_status = {
-    201: "CREATED",
-    501: "NOT_IMPLEMENTED"
-}
-
-data_model = {
-    "header": {
-    "auth_key": "",
-    "session_id": "",
-    "request_type": "",
-    "status": 0,
-    },
-    "body": {
-        "action_number": 0, 
-        "new_observation": "",
-        "reward": "",
-        "terminated": "",
-        "truncated": "",
-        "information": "",
-    }
+    # Success
+    200: "OK",
+    201: "CREATED", 
+    202: "ACCEPTED",
+    204: "NO_CONTENT",
+    
+    # Client Errors
+    400: "BAD_REQUEST",
+    401: "UNAUTHORIZED",
+    403: "FORBIDDEN",
+    404: "NOT_FOUND",
+    405: "METHOD_NOT_ALLOWED",
+    409: "CONFLICT",
+    422: "UNPROCESSABLE_ENTITY",
+    429: "TOO_MANY_REQUESTS",
+    
+    # Server Errors
+    500: "INTERNAL_SERVER_ERROR",
+    501: "NOT_IMPLEMENTED",
+    503: "SERVICE_UNAVAILABLE",
+    504: "GATEWAY_TIMEOUT"
 }
 
 class request_type(Enum):
     request_key = "request_key"
+    confirm_key = "confirm_key"
     action = "action"
     
 def generate_auth_key(length: int = 32) -> str:
@@ -59,7 +62,7 @@ class CommunicationData:
                  auth_key: str = None, 
                  session_id: str = None, 
                  request_type: str = None,
-                 status: int = 0, 
+                 message_status: int = 0, 
                  action_number: int = 0,
                  new_observation: str = None,
                  reward: str = None,
@@ -70,7 +73,7 @@ class CommunicationData:
         self.auth_key = auth_key
         self.session_id = session_id
         self.request_type = request_type
-        self.status = status
+        self.message_status = message_status
         self.action_number = action_number
         self.new_observation = new_observation
         self.reward = reward
@@ -84,7 +87,7 @@ class CommunicationData:
                 "auth_key": self.auth_key if self.auth_key is not None else "",
                 "session_id": self.session_id if self.session_id is not None else "",
                 "request_type": self.request_type if self.request_type is not None else "",
-                "status": self.status if self.status != 0 else 0,
+                "message_status": self.message_status if self.message_status != 0 else 0,
             },
             "body": {
                 "action_number": self.action_number if self.action_number != 0 else 0,
@@ -147,7 +150,7 @@ class CommunicationData:
             self.auth_key = header["auth_key"] if "auth_key" in header else None
             self.session_id = header["session_id"] if "session_id" in header else None
             self.request_type = header["request_type"] if "request_type" in header and self.is_request_key_valid(header["request_type"]) else None
-            self.status = header["status"] if self.is_valid_status(header["status"]) else None
+            self.message_status = header["message_status"] if self.is_valid_status(header["message_status"]) else None
 
         if contain_body:
             self.action_number = body["action_number"] if "action_number" in body and self.is_action_valid(body["action_number"]) else None

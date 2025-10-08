@@ -31,12 +31,17 @@ class GameManager:
         else:
             return False, client_loaded
 
-    def action(self, action: actions, player: Player = None) -> None:
+    def action(self, action: actions, player: ComponentRecord = None) -> None:
 
+        is_level_completed = False
+        
         if player is None:
             player : ComponentRecord= self.player
 
         client_loaded = player.get_values()["instance"].clients_loaded
+        
+        if action.wait == action:
+            pass
 
         if actions.up == action:
             # Move subjects
@@ -114,7 +119,14 @@ class GameManager:
             if RENDERING == True and condition_dropping:
                 self.event_manager.remove_rendering_client_and_destination(player.get_values()["instance"].get_position())
                 self.event_manager.update_scoring()
-    
+        
+                        # Check end of level
+        if self.event_manager.all_destinations_reached():
+            self.game_manager.level_completed()
+            is_level_completed = True
+            
+        return is_level_completed
+
     def level_completed(self):
         print("Level completed!")
         self.event_manager.reset_world()
