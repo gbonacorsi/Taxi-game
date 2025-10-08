@@ -13,7 +13,7 @@ A sophisticated agent pickup and delivery simulation built with Python and Turtl
 
 ### 🎮 Gameplay Preview
 
-![Demo](https://github.com/gbonacorsi/Taxi-game/assets/12345/abc123-demo.gif)
+![Taxi Game Demo](https://github.com/gbonacorsi/Taxi-game/blob/main/Asset/demo.gif)
 
 ## 🚀 Quick Start
 
