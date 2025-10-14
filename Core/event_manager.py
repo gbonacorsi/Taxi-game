@@ -18,6 +18,7 @@ class EventManager:
         self.blink_counter : int = 0
         self.state_manager : State_manager = State_manager()
         self.list_client_loaded : list[ComponentRecord] = []
+        self.explored_cells : list[tuple[int, int]] = []
 
     def turtle_blinking(self, screen: TurtleScreen) -> None:
 
@@ -41,6 +42,15 @@ class EventManager:
             current_position, new_position, moved = movement_system_player.go_right()
 
         self.scoring_system.add_penalty_for_travel()
+        if moved == False:
+            self.scoring_system.add_penalty_for_collision()
+            self.display.update_score(self.scoring_system.get_score())
+
+        if new_position not in self.explored_cells:
+            self.scoring_system.add_bonus_for_new_cell()
+            
+        self.explored_cells.append(new_position)
+        
         return current_position, new_position, moved
 
     def move_client(self, world: World, action: actions, client: ComponentRecord) -> None:

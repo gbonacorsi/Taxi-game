@@ -10,7 +10,7 @@ class input_type(Enum):
 MAP_INDEX = 0
 PLAYERS_NUMBER = 2                          # when Input_Type = KEYBOARD -> max 5 players
 CLIENTS_NUMBER = 2
-INPUT_TYPE = input_type.KEYBOARD            # input_type.KEYBOARD or input_type.SERVER      
+INPUT_TYPE = input_type.KEYBOARD            # input_type.KEYBOARD or input_type.SERVER
 RENDERING = True
 RENDER_ENGINE = "Turtle" 
 
@@ -33,8 +33,10 @@ LANGUAGE = lang.ENG.value
 
 # Scoring
 REWARD_CORRECT_DROP = 120
+BONUS_TRAVEL_NEW_CELL = 5
 MALUS_TRAVEL = -1
 MALUS_WRONG_DROP = -20
+MALUS_COLLISION = -10
 
 # DISPLAY
 SCREEN_WIDTH = 1000
