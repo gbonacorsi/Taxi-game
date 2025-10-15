@@ -1,6 +1,6 @@
 from Configuration.setup import RENDERING, RENDER_ENGINE
 from Managers.world_manager import World
-from Core.loop import loop
+from Core.Loop import loop
 from Presentation.Turtle.display_system import TurtleScreen
 
 class Engine:
